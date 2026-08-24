@@ -370,7 +370,32 @@ function build() {
   // 7. Blog build
   runBlogBuild();
 
-  // 8. Write robots.txt if not already present
+  // 8. Location pages (service+city)
+  try {
+    const { buildLocationPages } = require('./scripts/build-location-pages');
+    buildLocationPages({
+      srcBase:     'C:/Users/KillerGrowth/.openclaw/workspace/sites/goodtobeclean/page-content/location-pages',
+      distDir:     DIST,
+      domain:      DOMAIN,
+      noindex:     NOINDEX,
+      gtmId:       GTM_ID,
+      partials,
+      sitemapUrls,
+    });
+  } catch (err) {
+    console.warn('  ⚠  location pages build error:', err.message);
+  }
+
+  // 8b. Regenerate sitemap now that ALL pages (blog + location) are in dist/
+  try {
+    const { generateSitemap } = require('C:/Users/KillerGrowth/.openclaw/workspace/tools/kg-site-builder/lib/gen-sitemap');
+    generateSitemap({ distDir: DIST, siteRoot: ROOT, domain: DOMAIN.replace(/^https?:\/\//, '') });
+    console.log('  \u2713 sitemap regenerated with all pages');
+  } catch (err) {
+    console.warn('  \u26a0  sitemap regen error:', err.message);
+  }
+
+  // 9. Write robots.txt if not already present
   const robotsDst = path.join(DIST, 'robots.txt');
   if (!fs.existsSync(robotsDst)) {
     const robotsTxt = NOINDEX
