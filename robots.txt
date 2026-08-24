@@ -1,0 +1,6 @@
+# Good To Be Clean v2 — staging
+# NOINDEX: True — do not index until Tyler N approves
+User-agent: *
+Disallow: /
+
+Sitemap: https://goodtobeclean-v2.pages.dev/sitemap.xml

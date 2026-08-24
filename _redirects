@@ -1,0 +1,6 @@
+# Good To Be Clean v2 — Redirects
+# All old WordPress URLs are preserved as identical slugs in v2 — no redirects needed.
+# Add specific redirects here if slugs change during the migration.
+
+# Example (not active):
+# /old-page  /new-page  301

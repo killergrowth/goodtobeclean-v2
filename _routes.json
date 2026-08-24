@@ -1,12 +1,5 @@
 {
   "version": 1,
   "include": ["/*"],
-  "exclude": [
-    "/assets/*",
-    "/images/*",
-    "/data/*",
-    "/sitemap.xml",
-    "/robots.txt",
-    "/favicon.ico"
-  ]
+  "exclude": ["/assets/*", "/images/*", "/sitemap.xml", "/robots.txt", "/favicon.ico"]
 }

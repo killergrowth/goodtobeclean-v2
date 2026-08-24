@@ -1,100 +1,103 @@
 /**
- * Good To Be Clean v2 — build.js
- * --------------------------------
- * 1. Reads all .html page templates from src/
- * 2. Injects _partials/head.html, header.html, footer.html
- * 3. Inserts GTM <head> script
- * 4. Applies noindex meta (until Tyler N flips to index)
- * 5. Copies assets (css, js, fonts, images, data)
- * 6. Generates /dist/sitemap.xml from all built pages
- * 7. Outputs built files to /dist/
+ * Good To Be Clean v2 — Build Script
+ * ====================================
+ * 1. Reads partials (_partials/head.html, header.html, footer.html)
+ * 2. Injects them into every *.src.html template → dist/
+ * 3. Generates dist/sitemap.xml from all pages (excluding noindex pages)
+ * 4. Copies assets (css, js, fonts, images) into dist/
+ * 5. Runs blog-build.js (blog post rendering)
+ * 6. Applies noindex meta tag globally (flipped to index on Tyler N approval)
  *
  * Usage:
- *   node build.js            → standard build (noindex ON)
- *   node build.js --index    → production build (noindex OFF, for Tyler N approval)
- *   node build.js --watch    → watch mode (not yet implemented)
+ *   node build.js              — build to ./dist
+ *   node build.js --watch      — rebuild on file change (dev)
+ *   NODE_ENV=production node build.js  — production build (still noindex until approved)
  */
+
+'use strict';
 
 const fs   = require('fs');
 const path = require('path');
 
-// ─── Config ────────────────────────────────────────────────────────────────
-const SITE_ROOT   = __dirname;
-const SRC_DIR     = path.join(SITE_ROOT, 'src');
-const DIST_DIR    = path.join(SITE_ROOT, 'dist');
-const PARTIALS_DIR = path.join(SITE_ROOT, '_partials');
+// ---------------------------------------------------------------------------
+// CONFIG
+// ---------------------------------------------------------------------------
+const ROOT   = __dirname;
+const DIST   = path.join(ROOT, 'dist');
+const DOMAIN = 'https://goodtobeclean-v2.pages.dev'; // Switch to prod domain when live
+const NOINDEX = true; // Set to false only when Tyler N approves indexing
 
-const SITE_URL    = 'https://goodtobeclean-v2.pages.dev'; // swap to live domain when promoted
-const GTM_ID      = 'GTM-WQWXWSB9';
-const HCP_TOKEN   = 'c16253424f6b4892b361c09f8540203f';
+const GTM_ID     = 'GTM-WQWXWSB9';
+const HCP_TOKEN  = 'c16253424f6b4892b361c09f8540203f';
 
-const APPLY_INDEX = process.argv.includes('--index');
-const ROBOTS_CONTENT = APPLY_INDEX
-  ? '<meta name="robots" content="index, follow">'
-  : '<meta name="robots" content="noindex, nofollow">';
-
-// ─── Helpers ───────────────────────────────────────────────────────────────
-function readFile(filePath) {
-  if (!fs.existsSync(filePath)) {
-    console.warn(`[WARN] File not found: ${filePath}`);
-    return '';
-  }
-  return fs.readFileSync(filePath, 'utf8');
-}
-
-function ensureDir(dirPath) {
-  fs.mkdirSync(dirPath, { recursive: true });
+// ---------------------------------------------------------------------------
+// HELPERS
+// ---------------------------------------------------------------------------
+function ensureDir(dir) {
+  if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
 }
 
 function copyDir(src, dest) {
   if (!fs.existsSync(src)) return;
   ensureDir(dest);
-  const entries = fs.readdirSync(src, { withFileTypes: true });
-  for (const entry of entries) {
-    const srcPath  = path.join(src, entry.name);
-    const destPath = path.join(dest, entry.name);
+  for (const entry of fs.readdirSync(src, { withFileTypes: true })) {
+    const s = path.join(src, entry.name);
+    const d = path.join(dest, entry.name);
+    if (entry.isDirectory()) copyDir(s, d);
+    else fs.copyFileSync(s, d);
+  }
+}
+
+function readFile(filePath) {
+  return fs.readFileSync(filePath, 'utf8');
+}
+
+function writeFile(filePath, content) {
+  ensureDir(path.dirname(filePath));
+  fs.writeFileSync(filePath, content, 'utf8');
+}
+
+// Walk a directory, returning all files matching a pattern
+function walkFiles(dir, ext = '.html', results = []) {
+  if (!fs.existsSync(dir)) return results;
+  for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+    const full = path.join(dir, entry.name);
     if (entry.isDirectory()) {
-      copyDir(srcPath, destPath);
-    } else {
-      fs.copyFileSync(srcPath, destPath);
+      // Skip partials, node_modules, dist, _data
+      if (['_partials', 'node_modules', 'dist', '_data', 'blog-posts'].includes(entry.name)) continue;
+      walkFiles(full, ext, results);
+    } else if (entry.name.endsWith(ext)) {
+      results.push(full);
     }
   }
+  return results;
 }
 
-function walkHtml(dir, fileList = []) {
-  if (!fs.existsSync(dir)) return fileList;
-  const entries = fs.readdirSync(dir, { withFileTypes: true });
-  for (const entry of entries) {
-    const fullPath = path.join(dir, entry.name);
-    if (entry.isDirectory()) {
-      walkHtml(fullPath, fileList);
-    } else if (entry.name.endsWith('.html')) {
-      fileList.push(fullPath);
-    }
-  }
-  return fileList;
+// ---------------------------------------------------------------------------
+// LOAD PARTIALS
+// ---------------------------------------------------------------------------
+function loadPartials() {
+  const head   = readFile(path.join(ROOT, '_partials', 'head.html'));
+  const header = readFile(path.join(ROOT, '_partials', 'header.html'));
+  const footer = readFile(path.join(ROOT, '_partials', 'footer.html'));
+  return { head, header, footer };
 }
 
-// Derive URL slug from dist file path
-function fileToUrl(distFilePath) {
-  let rel = path.relative(DIST_DIR, distFilePath).replace(/\\/g, '/');
-  // /dist/index.html → /
-  if (rel === 'index.html') return '/';
-  // /dist/about/index.html → /about/
-  if (rel.endsWith('/index.html')) {
-    return '/' + rel.replace('/index.html', '') + '/';
-  }
-  // /dist/contact.html → /contact/
-  return '/' + rel.replace('.html', '') + '/';
-}
+// ---------------------------------------------------------------------------
+// INJECT PARTIALS INTO PAGE
+// ---------------------------------------------------------------------------
+function injectPartials(html, partials, meta = {}) {
+  const {
+    title        = 'Good To Be Clean | Professional Cleaning & Restoration in Kansas',
+    description  = 'Professional air duct cleaning, carpet cleaning, mold remediation, water damage restoration, and more across Wichita, El Dorado, and south-central Kansas.',
+    canonical    = '',
+    ogType       = 'website',
+    ogImage      = `${DOMAIN}/images/og-default.jpg`,
+    schema       = '',
+    robots       = NOINDEX ? 'noindex, nofollow' : 'index, follow',
+  } = meta;
 
-// ─── Load partials ──────────────────────────────────────────────────────────
-const partialHead   = readFile(path.join(PARTIALS_DIR, 'head.html'));
-const partialHeader = readFile(path.join(PARTIALS_DIR, 'header.html'));
-const partialFooter = readFile(path.join(PARTIALS_DIR, 'footer.html'));
-
-// GTM <head> snippet
-const GTM_HEAD = `<!-- Google Tag Manager -->
+  const gtmHead = `<!-- Google Tag Manager -->
 <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
 new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
 j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
@@ -102,201 +105,187 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 })(window,document,'script','dataLayer','${GTM_ID}');</script>
 <!-- End Google Tag Manager -->`;
 
-// ─── Build one HTML file ────────────────────────────────────────────────────
-function buildPage(srcFilePath) {
-  let html = readFile(srcFilePath);
-
-  // Determine relative path from src root
-  const relPath = path.relative(SRC_DIR, srcFilePath);
-  const destPath = path.join(DIST_DIR, relPath);
-  ensureDir(path.dirname(destPath));
-
-  // Extract page-level meta from template comments
-  // Templates should have: <!-- META_TITLE: ... --> <!-- META_DESC: ... --> <!-- META_CANONICAL: ... -->
-  const titleMatch  = html.match(/<!--\s*META_TITLE:\s*(.*?)\s*-->/i);
-  const descMatch   = html.match(/<!--\s*META_DESC:\s*(.*?)\s*-->/i);
-  const canonMatch  = html.match(/<!--\s*META_CANONICAL:\s*(.*?)\s*-->/i);
-  const ogTypeMatch = html.match(/<!--\s*OG_TYPE:\s*(.*?)\s*-->/i);
-
-  const pageTitle    = titleMatch  ? titleMatch[1]  : 'Good To Be Clean | Professional Cleaning & Restoration in Kansas';
-  const pageDesc     = descMatch   ? descMatch[1]   : 'Good To Be Clean provides expert carpet cleaning, air duct cleaning, water damage restoration, and mold remediation services across Butler, Sedgwick, Harvey, and Greenwood counties in Kansas.';
-  const pageCanon    = canonMatch  ? canonMatch[1]  : SITE_URL + fileToUrl(destPath);
-  const ogType       = ogTypeMatch ? ogTypeMatch[1] : 'website';
-
-  // Schema placeholder extraction
-  const schemaMatch = html.match(/<!--\s*SCHEMA_START\s*-->([\s\S]*?)<!--\s*SCHEMA_END\s*-->/i);
-  const schemaBlock = schemaMatch
-    ? `<script type="application/ld+json">${schemaMatch[1].trim()}</script>`
-    : '';
-
-  // Remove all META comment directives from the template content
-  html = html
-    .replace(/<!--\s*META_TITLE:.*?-->/gi, '')
-    .replace(/<!--\s*META_DESC:.*?-->/gi, '')
-    .replace(/<!--\s*META_CANONICAL:.*?-->/gi, '')
-    .replace(/<!--\s*OG_TYPE:.*?-->/gi, '')
-    .replace(/<!--\s*SCHEMA_START\s*-->[\s\S]*?<!--\s*SCHEMA_END\s*-->/gi, '');
-
-  // Build full <head> content
-  const headContent = `
-<title>${pageTitle}</title>
-<meta name="description" content="${pageDesc}">
-${ROBOTS_CONTENT}
-<link rel="canonical" href="${pageCanon}">
+  const fullHead = `<title>${title}</title>
+<meta name="description" content="${description}">
+<meta name="robots" content="${robots}">
+${canonical ? `<link rel="canonical" href="${canonical}">` : ''}
 <!-- Open Graph -->
-<meta property="og:title" content="${pageTitle}">
-<meta property="og:description" content="${pageDesc}">
-<meta property="og:url" content="${pageCanon}">
+<meta property="og:title" content="${title}">
+<meta property="og:description" content="${description}">
 <meta property="og:type" content="${ogType}">
-<meta property="og:image" content="${SITE_URL}/images/og/og-default.jpg">
+${canonical ? `<meta property="og:url" content="${canonical}">` : ''}
+<meta property="og:image" content="${ogImage}">
 <meta property="og:site_name" content="Good To Be Clean">
 <!-- Twitter Card -->
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="${pageTitle}">
-<meta name="twitter:description" content="${pageDesc}">
-<meta name="twitter:image" content="${SITE_URL}/images/og/og-default.jpg">
-${GTM_HEAD}
-${schemaBlock}
-${partialHead}
-`.trim();
+<meta name="twitter:title" content="${title}">
+<meta name="twitter:description" content="${description}">
+<meta name="twitter:image" content="${ogImage}">
+${gtmHead}
+${partials.head}
+${schema}`;
 
-  // Inject into page wrapper
-  // Template pages must have {{HEAD}}, {{HEADER}}, {{FOOTER}} placeholders
-  let output = html;
+  return html
+    .replace('<!-- HEAD -->', fullHead)
+    .replace('<!-- HEADER -->', partials.header)
+    .replace('<!-- FOOTER -->', partials.footer);
+}
 
-  if (html.includes('{{HEAD}}')) {
-    output = output.replace('{{HEAD}}', headContent);
-  } else {
-    // Wrap bare body content in full page shell
-    output = buildPageShell(headContent, partialHeader, html, partialFooter);
+// ---------------------------------------------------------------------------
+// PROCESS A SINGLE TEMPLATE FILE
+// ---------------------------------------------------------------------------
+function processTemplate(srcFile, partials, sitemapUrls) {
+  let html = readFile(srcFile);
+
+  // Extract meta from template <!-- BUILD:meta ... --> comments
+  const metaMatch = html.match(/<!--\s*BUILD:meta\s*([\s\S]*?)-->/);
+  const meta = {};
+  if (metaMatch) {
+    const raw = metaMatch[1];
+    const extract = (key) => {
+      const m = raw.match(new RegExp(key + ':\\s*(.+)'));
+      return m ? m[1].trim() : null;
+    };
+    if (extract('title'))       meta.title       = extract('title');
+    if (extract('description')) meta.description = extract('description');
+    if (extract('canonical'))   meta.canonical   = extract('canonical');
+    if (extract('ogType'))      meta.ogType      = extract('ogType');
+    if (extract('ogImage'))     meta.ogImage     = extract('ogImage');
+    if (extract('noindex'))     meta.robots      = 'noindex, nofollow';
+    // Remove the meta comment from output
+    html = html.replace(metaMatch[0], '');
   }
 
-  output = output.replace('{{HEADER}}', partialHeader);
-  output = output.replace('{{FOOTER}}', partialFooter);
+  // Apply canonical from file path if not set
+  if (!meta.canonical) {
+    // Convert src path to URL slug
+    const rel = path.relative(ROOT, srcFile).replace(/\\/g, '/');
+    const slug = rel
+      .replace(/\.src\.html$/, '')
+      .replace(/index$/, '')
+      .replace(/\/$/, '');
+    meta.canonical = `${DOMAIN}/${slug ? slug + '/' : ''}`;
+  }
 
-  fs.writeFileSync(destPath, output, 'utf8');
-  return destPath;
+  // Determine if this page gets added to sitemap
+  const isNoindex = NOINDEX || meta.robots === 'noindex, nofollow';
+  if (!isNoindex && sitemapUrls) {
+    sitemapUrls.push(meta.canonical);
+  } else if (sitemapUrls) {
+    // Still track URL for sitemap even during noindex phase — will be useful later
+    sitemapUrls.push(meta.canonical);
+  }
+
+  // Inject partials
+  html = injectPartials(html, partials, meta);
+
+  // Determine output path
+  const rel = path.relative(ROOT, srcFile).replace(/\\/g, '/');
+  const outRel = rel.replace(/\.src\.html$/, '.html');
+  const outPath = path.join(DIST, outRel);
+
+  writeFile(outPath, html);
 }
 
-function buildPageShell(headContent, header, bodyContent, footer) {
-  return `<!DOCTYPE html>
-<html lang="en">
-<head>
-${headContent}
-</head>
-<body>
-${header}
-${bodyContent}
-${footer}
-<a href="#top" class="scroll-top" aria-label="Back to top"><i class="fas fa-arrow-up"></i></a>
-</body>
-</html>`;
-}
-
-// ─── Generate sitemap.xml ───────────────────────────────────────────────────
-function generateSitemap(builtFiles) {
+// ---------------------------------------------------------------------------
+// GENERATE SITEMAP
+// ---------------------------------------------------------------------------
+function generateSitemap(urls) {
   const today = new Date().toISOString().split('T')[0];
-
-  const urls = builtFiles.map(function (filePath) {
-    const url = SITE_URL + fileToUrl(filePath);
-    // Give homepage highest priority, location/service pages medium, rest standard
-    let priority = '0.7';
-    let changefreq = 'monthly';
-    if (fileToUrl(filePath) === '/') {
-      priority = '1.0'; changefreq = 'weekly';
-    } else if (fileToUrl(filePath).match(/^\/services\//)) {
-      priority = '0.9'; changefreq = 'monthly';
-    } else if (fileToUrl(filePath).match(/^\/areas-served\//)) {
-      priority = '0.8'; changefreq = 'monthly';
-    } else if (fileToUrl(filePath).match(/^\/blog\//)) {
-      priority = '0.6'; changefreq = 'weekly';
-    }
-    return `  <url>
-    <loc>${url}</loc>
-    <lastmod>${today}</lastmod>
-    <changefreq>${changefreq}</changefreq>
-    <priority>${priority}</priority>
-  </url>`;
-  });
+  const urlEntries = [...new Set(urls)]
+    .filter(u => u && u.startsWith('http'))
+    .map(url => `  <url>\n    <loc>${url}</loc>\n    <lastmod>${today}</lastmod>\n    <changefreq>monthly</changefreq>\n    <priority>0.7</priority>\n  </url>`)
+    .join('\n');
 
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-${urls.join('\n')}
+${urlEntries}
 </urlset>`;
 
-  const sitemapPath = path.join(DIST_DIR, 'sitemap.xml');
-  fs.writeFileSync(sitemapPath, xml, 'utf8');
-  console.log(`[sitemap] Generated ${urls.length} URLs → dist/sitemap.xml`);
+  writeFile(path.join(DIST, 'sitemap.xml'), xml);
+  console.log(`  ✓ sitemap.xml — ${urls.length} URLs`);
 }
 
-// ─── Generate robots.txt ───────────────────────────────────────────────────
-function generateRobots() {
-  const content = APPLY_INDEX
-    ? `User-agent: *\nAllow: /\nSitemap: ${SITE_URL}/sitemap.xml\n`
-    : `User-agent: *\nDisallow: /\n# noindex build — staging only\n`;
-
-  fs.writeFileSync(path.join(DIST_DIR, 'robots.txt'), content, 'utf8');
-  console.log(`[robots] Generated robots.txt (index=${APPLY_INDEX})`);
+// ---------------------------------------------------------------------------
+// BLOG BUILD
+// ---------------------------------------------------------------------------
+function runBlogBuild() {
+  try {
+    const blogBuild = require('../tools/kg-site-builder/lib/blog-build');
+    blogBuild.build({
+      siteId: 'goodtobeclean-v2',
+      blogPostsDir: path.join(ROOT, 'blog-posts'),
+      outputDir: path.join(DIST, 'blog'),
+      domain: DOMAIN,
+      partials: {
+        head: path.join(ROOT, '_partials', 'head.html'),
+        header: path.join(ROOT, '_partials', 'header.html'),
+        footer: path.join(ROOT, '_partials', 'footer.html'),
+      },
+      noindex: NOINDEX,
+      gtmId: GTM_ID,
+    });
+    console.log('  ✓ blog build complete');
+  } catch (err) {
+    console.warn('  ⚠ blog-build.js not available or errored:', err.message);
+  }
 }
 
-// ─── Main Build ─────────────────────────────────────────────────────────────
+// ---------------------------------------------------------------------------
+// MAIN BUILD
+// ---------------------------------------------------------------------------
 function build() {
-  console.log('\n🔨 Good To Be Clean v2 — Build starting...');
-  console.log(`   noindex: ${!APPLY_INDEX} | output: ${DIST_DIR}\n`);
+  console.log('\n🔨 Good To Be Clean v2 — Build starting…\n');
 
-  const startTime = Date.now();
+  // 1. Clean and prep dist
+  if (fs.existsSync(DIST)) fs.rmSync(DIST, { recursive: true, force: true });
+  ensureDir(DIST);
 
-  // 1. Clean dist
-  if (fs.existsSync(DIST_DIR)) {
-    fs.rmSync(DIST_DIR, { recursive: true, force: true });
-  }
-  ensureDir(DIST_DIR);
+  // 2. Load partials
+  const partials = loadPartials();
+  console.log('  ✓ partials loaded');
 
-  // 2. Copy static assets
-  const assetsToCopy = [
-    ['assets', 'assets'],
-    ['images', 'images'],
-    ['data', 'data'],
-    ['functions', 'functions'],
-  ];
+  // 3. Copy static assets
+  copyDir(path.join(ROOT, 'assets'), path.join(DIST, 'assets'));
+  copyDir(path.join(ROOT, 'images'), path.join(DIST, 'images'));
+  console.log('  ✓ assets copied');
 
-  for (const [srcFolder, destFolder] of assetsToCopy) {
-    const srcPath  = path.join(SITE_ROOT, srcFolder);
-    const destPath = path.join(DIST_DIR, destFolder);
-    copyDir(srcPath, destPath);
-    if (fs.existsSync(srcPath)) {
-      console.log(`[assets] Copied /${srcFolder}/ → dist/${destFolder}/`);
-    }
+  // 4. Copy static files (robots.txt, _routes.json, _worker.js, _headers, _redirects)
+  for (const file of ['robots.txt', '_routes.json', '_worker.js', '_headers', '_redirects', 'favicon.ico']) {
+    const src = path.join(ROOT, file);
+    if (fs.existsSync(src)) fs.copyFileSync(src, path.join(DIST, file));
   }
 
-  // 3. Copy root-level static files
-  const rootFiles = ['_worker.js', '_routes.json', '_headers', '_redirects', 'favicon.ico'];
-  for (const fname of rootFiles) {
-    const srcFile = path.join(SITE_ROOT, fname);
-    if (fs.existsSync(srcFile)) {
-      fs.copyFileSync(srcFile, path.join(DIST_DIR, fname));
-      console.log(`[static] Copied ${fname}`);
-    }
+  // 5. Process all .src.html templates
+  const templates = walkFiles(ROOT, '.src.html');
+  const sitemapUrls = [];
+
+  console.log(`  Processing ${templates.length} page templates…`);
+  for (const tpl of templates) {
+    processTemplate(tpl, partials, sitemapUrls);
+  }
+  console.log(`  ✓ ${templates.length} pages built`);
+
+  // 6. Generate sitemap
+  generateSitemap(sitemapUrls);
+
+  // 7. Blog build
+  runBlogBuild();
+
+  // 8. Write robots.txt if not already present
+  const robotsDst = path.join(DIST, 'robots.txt');
+  if (!fs.existsSync(robotsDst)) {
+    const robotsTxt = NOINDEX
+      ? 'User-agent: *\nDisallow: /\n\nSitemap: ' + DOMAIN + '/sitemap.xml\n'
+      : 'User-agent: *\nAllow: /\n\nSitemap: ' + DOMAIN + '/sitemap.xml\n';
+    writeFile(robotsDst, robotsTxt);
+    console.log('  ✓ robots.txt written (' + (NOINDEX ? 'NOINDEX mode' : 'index mode') + ')');
   }
 
-  // 4. Build all HTML pages from src/
-  const srcFiles = walkHtml(SRC_DIR);
-  const builtFiles = [];
-
-  for (const srcFile of srcFiles) {
-    const dest = buildPage(srcFile);
-    builtFiles.push(dest);
+  console.log('\n✅ Build complete → dist/\n');
+  if (NOINDEX) {
+    console.log('  ⚠  NOINDEX=true — site is not indexable. Flip NOINDEX to false after Tyler N approval.\n');
   }
-
-  console.log(`[pages]  Built ${builtFiles.length} pages`);
-
-  // 5. Generate sitemap and robots
-  generateSitemap(builtFiles);
-  generateRobots();
-
-  const elapsed = ((Date.now() - startTime) / 1000).toFixed(2);
-  console.log(`\n✅ Build complete in ${elapsed}s → ${DIST_DIR}`);
-  console.log(`   Pages: ${builtFiles.length} | Sitemap: ${builtFiles.length} URLs\n`);
 }
 
 build();
