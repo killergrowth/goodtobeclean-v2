@@ -211,19 +211,14 @@ ${urlEntries}
 // ---------------------------------------------------------------------------
 function runBlogBuild() {
   try {
-    const blogBuild = require('../tools/kg-site-builder/lib/blog-build');
-    blogBuild.build({
+    const { buildBlog } = require('C:/Users/KillerGrowth/.openclaw/workspace/tools/kg-site-builder/lib/blog-build');
+    buildBlog({
       siteId: 'goodtobeclean-v2',
-      blogPostsDir: path.join(ROOT, 'blog-posts'),
-      outputDir: path.join(DIST, 'blog'),
+      srcDir: ROOT,
+      distDir: DIST,
       domain: DOMAIN,
-      partials: {
-        head: path.join(ROOT, '_partials', 'head.html'),
-        header: path.join(ROOT, '_partials', 'header.html'),
-        footer: path.join(ROOT, '_partials', 'footer.html'),
-      },
-      noindex: NOINDEX,
-      gtmId: GTM_ID,
+      siteName: 'Good To Be Clean',
+      primaryColor: '#d32f2f',
     });
     console.log('  ✓ blog build complete');
   } catch (err) {
