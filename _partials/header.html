@@ -1,23 +1,29 @@
 <!-- HEADER PARTIAL — injected into every page via build.js -->
-<!-- Top bar with phone number -->
+
+<!-- Bootstrap 5 JS — must load early so dropdowns/collapse work on DOMContentLoaded -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc4s9bIOgUxi8T/jzmTWzHFJ" crossorigin="anonymous"></script>
+
+<!-- Top bar -->
 <div class="g2bc-topbar">
-  <div class="container">
-    <span><i class="fa-solid fa-phone-flip fa-flip-horizontal me-1"></i> Call Us 24/7: <a href="tel:+13163206767">(316) 320-6767</a></span>
-    <span class="ms-4 d-none d-sm-inline"><i class="fa-regular fa-clock me-1"></i> Office: Mon–Fri 8am–5pm &nbsp;|&nbsp; 24/7 Emergency Support</span>
+  <div class="container d-flex justify-content-center align-items-center gap-4 flex-wrap">
+    <span>Serving Butler, Greenwood, Sedgwick, Harvey County &amp; More</span>
+    <strong><a href="tel:+13163206767">(316) 320-6767</a></strong>
   </div>
 </div>
 
-<!-- Main navbar -->
+<!-- Main Navbar -->
 <nav class="g2bc-navbar navbar navbar-expand-lg" aria-label="Main navigation">
   <div class="container">
 
-    <!-- Logo -->
+    <!-- Logo (bigger in header) -->
     <a class="navbar-brand" href="/" aria-label="Good To Be Clean Home">
-      <img src="/images/logo.png" alt="Good To Be Clean" height="52" width="auto" loading="eager">
+      <img src="/images/logo.png" alt="Good To Be Clean" height="64" width="auto" loading="eager" style="max-width:200px;">
     </a>
 
     <!-- Mobile toggle -->
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav" aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
+    <button class="navbar-toggler" type="button"
+      data-bs-toggle="collapse" data-bs-target="#mainNav"
+      aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
 
@@ -35,7 +41,8 @@
 
         <!-- Services dropdown -->
         <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="/services/" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+          <a class="nav-link dropdown-toggle" href="/services/" role="button"
+            data-bs-toggle="dropdown" aria-expanded="false">
             Services
           </a>
           <ul class="dropdown-menu">
@@ -43,15 +50,35 @@
             <li><a class="dropdown-item" href="/services/carpet-cleaning/">Carpet Cleaning</a></li>
             <li><a class="dropdown-item" href="/services/fire-smoke-restoration/">Fire &amp; Smoke Restoration</a></li>
             <li><a class="dropdown-item" href="/services/mold-remediation/">Mold Remediation</a></li>
+            <li><a class="dropdown-item" href="/services/restoration-services/">Restoration Services</a></li>
             <li><a class="dropdown-item" href="/services/soda-blasting/">Soda Blasting</a></li>
             <li><a class="dropdown-item" href="/services/vapor-barrier/">Vapor Barrier</a></li>
             <li><a class="dropdown-item" href="/services/water-damage-restoration/">Water Damage Restoration</a></li>
-            <li><a class="dropdown-item" href="/services/restoration-services/">Restoration Services</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item fw-semibold" href="/services/">View All Services</a></li>
           </ul>
         </li>
 
-        <li class="nav-item">
-          <a class="nav-link" href="/areas-served/">Areas Served</a>
+        <!-- Areas Served dropdown -->
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="/areas-served/" role="button"
+            data-bs-toggle="dropdown" aria-expanded="false">
+            Areas Served
+          </a>
+          <ul class="dropdown-menu" style="min-width:220px;">
+            <li><a class="dropdown-item" href="/areas-served/wichita-ks/">Wichita</a></li>
+            <li><a class="dropdown-item" href="/areas-served/andover-ks/">Andover</a></li>
+            <li><a class="dropdown-item" href="/areas-served/derby-ks/">Derby</a></li>
+            <li><a class="dropdown-item" href="/areas-served/el-dorado-ks/">El Dorado</a></li>
+            <li><a class="dropdown-item" href="/areas-served/newton-ks/">Newton</a></li>
+            <li><a class="dropdown-item" href="/areas-served/maize-ks/">Maize</a></li>
+            <li><a class="dropdown-item" href="/areas-served/haysville-ks/">Haysville</a></li>
+            <li><a class="dropdown-item" href="/areas-served/goddard-ks/">Goddard</a></li>
+            <li><a class="dropdown-item" href="/areas-served/bel-aire-ks/">Bel Aire</a></li>
+            <li><a class="dropdown-item" href="/areas-served/valley-center-ks/">Valley Center</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item fw-semibold" href="/areas-served/">View All Areas</a></li>
+          </ul>
         </li>
 
         <li class="nav-item">
@@ -62,14 +89,18 @@
           <a class="nav-link" href="/contact/">Contact</a>
         </li>
 
-        <!-- HCP Book Now CTA -->
-        <li class="nav-item ms-lg-2">
-          <a class="hcp-button" href="https://online-booking.housecallpro.com/book/Good-To-Be-Clean/c16253424f6b4892b361c09f8540203f" target="_blank" rel="noopener noreferrer">
-            Book Now
-          </a>
+        <!-- HCP Book Online Button -->
+        <li class="nav-item ms-lg-2 mt-2 mt-lg-0">
+          <button
+            class="hcp-button"
+            data-token="c16253424f6b4892b361c09f8540203f"
+            data-orgname="Good-To-Be-Clean"
+            type="button">
+            Book Online!
+          </button>
         </li>
 
       </ul>
-    </div>
-  </div>
+    </div><!-- /.collapse -->
+  </div><!-- /.container -->
 </nav>

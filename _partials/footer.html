@@ -1,120 +1,125 @@
 <!-- FOOTER PARTIAL — injected into every page via build.js -->
 
-<!-- Footer CTA Band -->
+<!-- Footer CTA Banner -->
 <section class="g2bc-footer-cta">
-  <div class="container">
-    <p class="section-label mb-2">Ready to Start?</p>
+  <div class="container text-center">
+    <p class="section-label" style="color:#d32f2f;">Call Now or Book Online!</p>
     <h2>A Cleaner, Healthier Space Starts Here.</h2>
-    <p>Professional restoration and cleaning services across Wichita, El Dorado, and surrounding Kansas communities.<br>
-    Call now or book online — we're available 24/7 for emergencies.</p>
+    <p style="max-width:640px;margin:0 auto 28px;">Professional restoration and cleaning services across Wichita, El Dorado, and surrounding Kansas communities. Call now or book online — we're available 24/7 for emergencies.</p>
     <div class="d-flex gap-3 justify-content-center flex-wrap">
-      <a href="tel:+13163206767" class="btn-primary-g2bc"><i class="fa-solid fa-phone me-2"></i>(316) 320-6767</a>
-      <a href="https://online-booking.housecallpro.com/book/Good-To-Be-Clean/c16253424f6b4892b361c09f8540203f" target="_blank" rel="noopener noreferrer" class="btn-secondary-g2bc">Book Online</a>
+      <button
+        class="hcp-button"
+        data-token="c16253424f6b4892b361c09f8540203f"
+        data-orgname="Good-To-Be-Clean"
+        type="button">
+        Book Online!
+      </button>
+      <div class="d-flex flex-column justify-content-center">
+        <span style="font-size:12px;color:rgba(255,255,255,0.7);text-transform:uppercase;letter-spacing:1px;">Or Call Us 24/7</span>
+        <a href="tel:+13163206767" style="color:#fff;font-size:1.25rem;font-weight:700;text-decoration:none;">(316) 320-6767</a>
+      </div>
     </div>
   </div>
 </section>
 
-<!-- Main footer -->
+<!-- Footer Main -->
 <footer class="g2bc-footer-main">
   <div class="container">
-    <div class="row gy-5">
+    <div class="row g-4">
 
-      <!-- Column 1: Brand -->
+      <!-- Col 1: Logo + About -->
       <div class="col-lg-4 col-md-6">
-        <a href="/" aria-label="Good To Be Clean Home">
-          <img src="/images/logo.png" alt="Good To Be Clean" height="52" style="filter:brightness(0) invert(1); margin-bottom:20px;" loading="lazy">
+        <!-- Smaller logo in footer -->
+        <a href="/">
+          <img src="/images/logo.png" alt="Good To Be Clean" height="44" width="auto"
+            style="filter:brightness(0) invert(1);margin-bottom:18px;max-width:160px;">
         </a>
-        <p style="font-size:14px; line-height:1.8; color:rgba(255,255,255,0.7);">
-          Good To Be Clean, LLC provides professional air duct cleaning, carpet cleaning, mold remediation, water damage restoration, and more across Kansas.
-        </p>
+        <p style="font-size:14px;color:rgba(255,255,255,0.7);line-height:1.8;">With over a decade of experience and 200+ five-star reviews, we are your trusted partner for spotless spaces across Kansas.</p>
+        <p style="font-size:14px;color:rgba(255,255,255,0.7);margin-bottom:4px;"><strong style="color:#fff;">Hours:</strong> Mon &ndash; Fri: 8am &ndash; 5pm</p>
+        <p style="font-size:14px;color:rgba(255,255,255,0.7);">24/7 Emergency: <a href="tel:+13163206767" style="color:#fff;font-weight:700;">(316) 320-6767</a></p>
         <div class="social-links">
-          <a href="https://www.facebook.com/goodtobecleanllc" target="_blank" rel="noopener noreferrer" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
-          <a href="https://x.com/goodtobeclean" target="_blank" rel="noopener noreferrer" aria-label="X (Twitter)"><i class="fa-brands fa-x-twitter"></i></a>
-          <a href="https://www.youtube.com/@goodtobecleanllc" target="_blank" rel="noopener noreferrer" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
-          <a href="https://www.instagram.com/goodtobeclean_llc" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+          <a href="https://www.facebook.com/goodtobeclean" target="_blank" rel="noopener" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+          <a href="https://x.com/goodtobeclean" target="_blank" rel="noopener" aria-label="X (Twitter)"><i class="fab fa-x-twitter"></i></a>
+          <a href="https://www.instagram.com/goodtobeclean/" target="_blank" rel="noopener" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+          <a href="https://www.youtube.com/c/GoodToBeCleanElDorado/featured" target="_blank" rel="noopener" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+          <a href="https://www.linkedin.com/company/good-to-be-clean-llc" target="_blank" rel="noopener" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
         </div>
       </div>
 
-      <!-- Column 2: Services -->
-      <div class="col-lg-2 col-md-6 col-sm-6">
-        <h5>Services</h5>
-        <ul class="g2bc-footer-links">
-          <li><a href="/services/air-duct-cleaning/">Air Duct Cleaning</a></li>
-          <li><a href="/services/carpet-cleaning/">Carpet Cleaning</a></li>
-          <li><a href="/services/fire-smoke-restoration/">Fire &amp; Smoke Restoration</a></li>
-          <li><a href="/services/mold-remediation/">Mold Remediation</a></li>
-          <li><a href="/services/soda-blasting/">Soda Blasting</a></li>
-          <li><a href="/services/vapor-barrier/">Vapor Barrier</a></li>
-          <li><a href="/services/water-damage-restoration/">Water Damage Restoration</a></li>
-          <li><a href="/services/restoration-services/">Restoration Services</a></li>
+      <!-- Col 2: Contact -->
+      <div class="col-lg-3 col-md-6">
+        <h5>Contact Us</h5>
+        <ul class="list-unstyled g2bc-footer-contact">
+          <li>
+            <i class="fas fa-map-marker-alt"></i>
+            <span>303 Commerce St<br>El Dorado, KS 67042</span>
+          </li>
+          <li>
+            <i class="fas fa-map-marker-alt"></i>
+            <span>2903 E Central Ave #2<br>Wichita, KS 67214</span>
+          </li>
+          <li>
+            <i class="fas fa-phone-alt"></i>
+            <a href="tel:+13163206767" style="color:rgba(255,255,255,0.7);">(316) 320-6767</a>
+          </li>
+          <li>
+            <i class="fas fa-envelope"></i>
+            <a href="mailto:info@goodtobeclean.com" style="color:rgba(255,255,255,0.7);">info@goodtobeclean.com</a>
+          </li>
         </ul>
       </div>
 
-      <!-- Column 3: Quick Links -->
-      <div class="col-lg-2 col-md-6 col-sm-6">
-        <h5>Company</h5>
+      <!-- Col 3: Quick Links -->
+      <div class="col-lg-2 col-md-6">
+        <h5>Quick Links</h5>
         <ul class="g2bc-footer-links">
           <li><a href="/">Home</a></li>
           <li><a href="/about/">About Us</a></li>
+          <li><a href="/services/">Services</a></li>
           <li><a href="/areas-served/">Areas Served</a></li>
           <li><a href="/blog/">Blog</a></li>
           <li><a href="/contact/">Contact</a></li>
-          <li><a href="/sitemap.xml">Sitemap</a></li>
+          <li><a href="/sitemap/">Site Map</a></li>
         </ul>
       </div>
 
-      <!-- Column 4: Contact -->
-      <div class="col-lg-4 col-md-6">
-        <h5>Contact Us</h5>
-        <ul class="g2bc-footer-contact list-unstyled">
-          <li>
-            <i class="fa-solid fa-location-dot"></i>
-            <span>303 Commerce St, El Dorado, KS 67042</span>
-          </li>
-          <li>
-            <i class="fa-solid fa-location-dot"></i>
-            <span>2903 E Central Ave #2, Wichita, KS 67214</span>
-          </li>
-          <li>
-            <i class="fa-solid fa-phone"></i>
-            <a href="tel:+13163206767" style="color:rgba(255,255,255,0.75);">(316) 320-6767</a>
-          </li>
-          <li>
-            <i class="fa-regular fa-clock"></i>
-            <span>Mon–Fri: 8am–5pm<br>24/7 Emergency Support</span>
-          </li>
-        </ul>
-        <p style="font-size:13px; color:rgba(255,255,255,0.5); margin-top:16px;">
-          Serving El Dorado, Wichita, Andover, Derby, Augusta, Newton, Hutchinson, and all of south-central Kansas.
+      <!-- Col 4: Areas Served -->
+      <div class="col-lg-3 col-md-6">
+        <h5>Areas Served</h5>
+        <p style="font-size:13px;line-height:2.1;color:rgba(255,255,255,0.7);">
+          <a href="/areas-served/wichita-ks/">Wichita</a> &bull;
+          <a href="/areas-served/andover-ks/">Andover</a> &bull;
+          <a href="/areas-served/derby-ks/">Derby</a> &bull;
+          <a href="/areas-served/el-dorado-ks/">El Dorado</a> &bull;
+          <a href="/areas-served/newton-ks/">Newton</a> &bull;
+          <a href="/areas-served/maize-ks/">Maize</a> &bull;
+          <a href="/areas-served/haysville-ks/">Haysville</a> &bull;
+          <a href="/areas-served/goddard-ks/">Goddard</a> &bull;
+          <a href="/areas-served/bel-aire-ks/">Bel Aire</a> &bull;
+          <a href="/areas-served/valley-center-ks/">Valley Center</a> &bull;
+          <a href="/areas-served/augusta-ks/">Augusta</a> &bull;
+          <a href="/areas-served/rose-hill-ks/">Rose Hill</a> &bull;
+          <a href="/areas-served/sedgwick-ks/">Sedgwick</a> &bull;
+          <a href="/areas-served/park-city-ks/">Park City</a> &bull;
+          <a href="/areas-served/benton-ks/">Benton</a>
         </p>
+        <a href="/areas-served/" style="font-size:13px;color:#d32f2f;font-weight:700;">View all service areas &rarr;</a>
       </div>
 
-    </div><!-- /row -->
-  </div><!-- /container -->
+    </div>
+  </div>
 </footer>
 
-<!-- Footer bar -->
+<!-- Footer Bar -->
 <div class="g2bc-footer-bar">
   <div class="container">
-    <p class="mb-0">
-      &copy; <span id="footer-year">2025</span> Good To Be Clean, LLC. All rights reserved. &nbsp;|&nbsp;
-      <a href="/privacy-policy/">Privacy Policy</a> &nbsp;|&nbsp;
-      <a href="/terms-of-service/">Terms of Service</a>
-    </p>
+    Good To Be Clean, LLC. &copy; <span id="footer-year"></span> All rights reserved.
+    Website crafted by <a href="https://killergrowth.com/" target="_blank" rel="noopener">KillerGrowth</a>
   </div>
 </div>
 
-<!-- Scroll to top -->
-<a href="#top" class="scroll-top" id="scrollTop" aria-label="Back to top"><i class="fa-solid fa-chevron-up"></i></a>
-
-<!-- Bootstrap 5 JS -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc4s9bIOgUxi8T/jzmfRl6XCKy0BxWgAuBQVXL2cGBk" crossorigin="anonymous"></script>
-
 <!-- Site JS -->
-<script src="/assets/js/main.js"></script>
+<script src="/assets/js/main.js" defer></script>
 
-<!-- Dynamic year -->
-<script>document.getElementById('footer-year').textContent = new Date().getFullYear();</script>
-
-<!-- GTM (noscript) -->
+<!-- GTM noscript -->
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WQWXWSB9" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>

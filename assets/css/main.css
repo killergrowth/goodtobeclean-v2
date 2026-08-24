@@ -50,7 +50,7 @@ p { margin-bottom: 1rem; }
 }
 
 .g2bc-navbar .navbar-brand img {
-  height: 52px;
+  height: 68px;
   width: auto;
 }
 
@@ -341,34 +341,33 @@ p { margin-bottom: 1rem; }
 .cta-banner p { color: rgba(255,255,255,0.85); font-size: 1.1rem; margin-bottom: 32px; }
 
 /* ============================================================
-   BREADCRUMBS
+   BREADCRUMBS — inside hero, centered
    ============================================================ */
 .g2bc-breadcrumb {
-  background: #f7f8fc;
-  padding: 12px 0;
-  border-bottom: 1px solid #e8eaf0;
   font-size: 13px;
+  text-align: center;
+  margin-top: 14px;
 }
 
-.g2bc-breadcrumb ol { margin: 0; padding: 0; list-style: none; display: flex; flex-wrap: wrap; gap: 4px; align-items: center; }
+.g2bc-breadcrumb ol { margin: 0; padding: 0; list-style: none; display: flex; flex-wrap: wrap; gap: 4px; align-items: center; justify-content: center; }
 .g2bc-breadcrumb li { display: flex; align-items: center; gap: 4px; }
-.g2bc-breadcrumb li + li::before { content: '›'; color: #999; }
-.g2bc-breadcrumb a { color: #000e39; }
-.g2bc-breadcrumb a:hover { color: #d32f2f; }
-.g2bc-breadcrumb .current { color: #666; }
+.g2bc-breadcrumb li + li::before { content: '›'; color: rgba(255,255,255,0.5); }
+.g2bc-breadcrumb a { color: rgba(255,255,255,0.75); }
+.g2bc-breadcrumb a:hover { color: #fff; }
+.g2bc-breadcrumb .current { color: rgba(255,255,255,0.55); }
 
 /* ============================================================
-   PAGE HERO (inner pages)
+   PAGE HERO (inner pages) — breadcrumbs now inside hero
    ============================================================ */
 .page-hero {
   background: linear-gradient(135deg, #000e39 0%, #15265b 100%);
   color: #fff;
-  padding: 60px 0;
+  padding: 56px 0 48px;
   text-align: center;
 }
 
-.page-hero h1 { color: #fff; font-size: 2.2rem; margin-bottom: 12px; }
-.page-hero p { color: rgba(255,255,255,0.85); font-size: 1.05rem; margin: 0; }
+.page-hero h1 { color: #fff; font-size: 2.2rem; margin-bottom: 10px; }
+.page-hero .hero-subtitle { color: rgba(255,255,255,0.85); font-size: 1.05rem; margin-bottom: 0; }
 
 /* ============================================================
    CONTACT FORM
@@ -439,6 +438,58 @@ p { margin-bottom: 1rem; }
 .location-sidebar-box ul li:last-child { border-bottom: none; }
 .location-sidebar-box ul li a { display: block; padding: 9px 0; color: #000e39; font-size: 14px; font-weight: 500; }
 .location-sidebar-box ul li a:hover { color: #d32f2f; }
+
+/* ============================================================
+   TRUST BAR
+   ============================================================ */
+.trust-bar {
+  background: #f7f8fc;
+  padding: 28px 0;
+  border-bottom: 1px solid #ebedf5;
+}
+
+.trust-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 4px 8px;
+}
+
+.trust-icon-wrap {
+  width: 72px;
+  height: 72px;
+  background: #fff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 14px;
+  box-shadow: 0 4px 16px rgba(0,14,57,0.1);
+  position: relative;
+  flex-shrink: 0;
+}
+
+.trust-icon-wrap i {
+  font-size: 28px;
+  color: #000e39;
+}
+
+.trust-item .trust-label {
+  font-weight: 700;
+  font-size: 14px;
+  color: #000e39;
+  line-height: 1.35;
+  max-width: 140px;
+}
+
+.trust-item .trust-underline {
+  width: 32px;
+  height: 3px;
+  background: #d32f2f;
+  margin: 10px auto 0;
+  border-radius: 2px;
+}
 
 /* ============================================================
    FOOTER
