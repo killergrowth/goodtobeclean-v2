@@ -120,10 +120,12 @@ details:not([open]) .kg-acc-icon::before{content:'\002B'}
 .kg-book-btn{display:block;background:#d32f2f;color:#fff;text-align:center;padding:10px;border-radius:4px;font-weight:700;text-decoration:none;margin-top:10px}
 .kg-book-btn:hover{background:#b71c1c;color:#fff;text-decoration:none}
 
-/* City badges */
-.kg-city-links{margin:0;padding:0;list-style:none;display:flex;flex-wrap:wrap;gap:6px}
-.kg-city-links li a{display:inline-block;background:#eef0f8;color:#000e39;border-radius:20px;padding:4px 12px;font-size:.82rem;font-weight:500;text-decoration:none;transition:background .2s}
-.kg-city-links li a:hover{background:#000e39;color:#fff}
+/* City links — plain vertical list in sidebar */
+.kg-city-links{margin:0;padding:0;list-style:none}
+.kg-city-links li{border-bottom:1px solid #eee}
+.kg-city-links li:last-child{border-bottom:none}
+.kg-city-links li a{display:block;padding:6px 0;font-size:.88rem;color:#000e39;text-decoration:none;font-weight:500;transition:color .2s}
+.kg-city-links li a:hover{color:#d32f2f}
 
 /* FAQ */
 .kg-faq-item{margin-bottom:24px}
