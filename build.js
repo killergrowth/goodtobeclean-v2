@@ -319,7 +319,7 @@ function runBlogBuild() {
       siteId: 'goodtobeclean-v2',
       srcDir: ROOT,
       distDir: DIST,
-      domain: DOMAIN,
+      domain: DOMAIN.replace(/^https?:\/\//, ''),
       siteName: 'Good To Be Clean',
       primaryColor: '#d32f2f',
     });
