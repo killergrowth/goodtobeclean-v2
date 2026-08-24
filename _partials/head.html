@@ -127,6 +127,59 @@ details:not([open]) .kg-acc-icon::before{content:'\002B'}
 .kg-city-links li a{display:block;padding:6px 0;font-size:.88rem;color:#000e39;text-decoration:none;font-weight:500;transition:color .2s}
 .kg-city-links li a:hover{color:#d32f2f}
 
+/* Mega-menu &mdash; Areas Served */
+.g2bc-mega-menu{
+  min-width:600px;
+  /* anchor to right edge so it doesn't clip off screen */
+  left:auto;
+  right:0;
+  border-top:3px solid #d32f2f;
+  box-shadow:0 8px 24px rgba(0,0,0,.12);
+}
+.g2bc-mega-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:0 8px;
+}
+.g2bc-mega-col{
+  list-style:none;
+  margin:0;
+  padding:0;
+}
+.g2bc-mega-col li{
+  border-bottom:1px solid #f0f0f0;
+}
+.g2bc-mega-col li:last-child{border-bottom:none;}
+.g2bc-mega-col li a{
+  display:block;
+  padding:7px 10px;
+  font-size:.9rem;
+  color:#000e39;
+  text-decoration:none;
+  white-space:nowrap;
+  transition:background .15s,color .15s;
+  border-radius:3px;
+}
+.g2bc-mega-col li a:hover{background:#fdf2f2;color:#d32f2f;}
+.g2bc-mega-footer{
+  margin-top:12px;
+  padding-top:10px;
+  border-top:1px dashed #ddd;
+  text-align:right;
+}
+.g2bc-mega-footer a{
+  font-size:.85rem;
+  font-weight:700;
+  color:#d32f2f;
+  text-decoration:none;
+}
+.g2bc-mega-footer a:hover{text-decoration:underline;}
+/* Mobile: collapse mega-menu to single column */
+@media(max-width:991px){
+  .g2bc-mega-menu{min-width:100%;right:auto;}
+  .g2bc-mega-grid{grid-template-columns:1fr 1fr;}
+}
+
 /* FAQ */
 .kg-faq-item{margin-bottom:24px}
 .kg-faq-item h3{font-size:17px;color:#000e39;margin-bottom:6px}
