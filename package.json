@@ -1,0 +1,9 @@
+{
+  "name": "goodtobeclean-v2",
+  "version": "1.0.0",
+  "description": "Good To Be Clean v2 - Clean HTML site",
+  "scripts": {
+    "build": "node build.js"
+  },
+  "dependencies": {}
+}
