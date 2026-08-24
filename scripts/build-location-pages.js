@@ -355,6 +355,116 @@ ${gtmBody}
 }
 
 // ---------------------------------------------------------------------------
+// AREAS SERVED CONFIG
+// ---------------------------------------------------------------------------
+const AREAS_SERVED_SERVICES = [
+  { label: 'Carpet Cleaning',          url: '/services/carpet-cleaning/' },
+  { label: 'Air Duct Cleaning',        url: '/services/air-duct-cleaning/' },
+  { label: 'Water Damage Restoration', url: '/services/water-damage-restoration/' },
+  { label: 'Mold Remediation',         url: '/services/mold-remediation/' },
+  { label: 'Fire & Smoke Restoration', url: '/services/fire-smoke-restoration/' },
+  { label: 'Soda Blasting',            url: '/services/soda-blasting/' },
+  { label: 'Vapor Barrier',            url: '/services/vapor-barrier/' },
+];
+
+function renderAreasServedPage(meta, bodyHtml, citySlug, domain, noindex, gtmId, partials) {
+  const canonical = `${domain}/areas-served/${citySlug}/`;
+  const robots    = noindex ? 'noindex, nofollow' : 'index, follow';
+  const cityName  = cityDisplay(citySlug);
+
+  const breadcrumb = `<nav class="g2bc-breadcrumb" aria-label="Breadcrumb">
+      <ol>
+        <li><a href="/">Home</a></li>
+        <li><a href="/areas-served/">Areas Served</a></li>
+        <li><span class="current">${cityName}</span></li>
+      </ol>
+    </nav>`;
+
+  const serviceLinks = AREAS_SERVED_SERVICES.map(s =>
+    `<li><a href="${s.url}">${s.label}</a></li>`
+  ).join('\n        ');
+
+  const schema = JSON.stringify({
+    '@context': 'https://schema.org',
+    '@type': 'LocalBusiness',
+    'name': 'Good To Be Clean',
+    'telephone': '+13163206767',
+    'url': domain,
+    'areaServed': { '@type': 'City', 'name': cityName, 'addressRegion': 'KS' },
+  });
+
+  const gtmHead = gtmId ? `<!-- Google Tag Manager -->\n<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':\nnew Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],\nj=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=\n'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);\n})(window,document,'script','dataLayer','${gtmId}');<\/script>\n<!-- End Google Tag Manager -->` : '';
+
+  const gtmBody = gtmId ? `<!-- Google Tag Manager (noscript) -->\n<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=${gtmId}"\nheight="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>\n<!-- End Google Tag Manager (noscript) -->` : '';
+
+  let html = `<!DOCTYPE html>
+<html lang="en" id="top">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>${meta.title || `Cleaning & Restoration in ${cityName}, KS | Good To Be Clean`}</title>
+<meta name="description" content="${meta.description || ''}">
+<meta name="robots" content="${robots}">
+<link rel="canonical" href="${canonical}">
+<link rel="icon" href="/images/favicon.ico" type="image/x-icon">
+<meta property="og:title" content="${meta.title || ''}">
+<meta property="og:description" content="${meta.description || ''}">
+<meta property="og:type" content="website">
+<meta property="og:url" content="${canonical}">
+<meta property="og:image" content="${domain}/images/og-default.jpg">
+<meta property="og:site_name" content="Good To Be Clean">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="${meta.title || ''}">
+<meta name="twitter:description" content="${meta.description || ''}">
+<meta name="twitter:image" content="${domain}/images/og-default.jpg">
+<script type="application/ld+json">${schema}<\/script>
+${gtmHead}
+<!-- PARTIALS:HEAD -->
+</head>
+<body>
+${gtmBody}
+<!-- PARTIALS:HEADER -->
+<section class="page-hero">
+  <div class="container">
+    <h1>${meta.title ? meta.title.split('|')[0].trim() : `Cleaning & Restoration Services in ${cityName}, KS`}</h1>
+    <p class="hero-subtitle">IICRC-certified cleaning and restoration serving ${cityName} and surrounding communities.</p>
+    ${breadcrumb}
+  </div>
+</section>
+<main>
+<div class="kg-service-layout">
+  <article class="kg-location-content">
+    ${bodyHtml}
+  </article>
+  <aside class="kg-service-sidebar">
+    <div class="kg-sidebar-box kg-sidebar-cta">
+      <h6>Call Us 24/7</h6>
+      <a href="tel:+13163206767" class="kg-sidebar-phone">(316) 320-6767</a>
+      <button data-token="c16253424f6b4892b361c09f8540203f" data-orgname="Good-To-Be-Clean" onclick="HCPWidget.openModal()" class="hcp-button kg-book-btn">Book Online</button>
+    </div>
+    <div class="kg-sidebar-box">
+      <h6>Our Services</h6>
+      <ul>
+        ${serviceLinks}
+      </ul>
+    </div>
+  </aside>
+</div>
+</main>
+<!-- PARTIALS:FOOTER -->
+<script type="text/javascript" src="https://www.homeadvisor.com/static/v1/widget/hcpWidget.js"></script>
+</body>
+</html>`;
+
+  html = html
+    .replace('<!-- PARTIALS:HEAD -->', partials.head || '')
+    .replace('<!-- PARTIALS:HEADER -->', partials.header || '')
+    .replace('<!-- PARTIALS:FOOTER -->', partials.footer || '');
+
+  return html;
+}
+
+// ---------------------------------------------------------------------------
 // MAIN EXPORT
 // ---------------------------------------------------------------------------
 function buildLocationPages({ srcBase, distDir, domain, noindex, gtmId, partials, sitemapUrls }) {
@@ -407,6 +517,33 @@ function buildLocationPages({ srcBase, distDir, domain, noindex, gtmId, partials
   }
 
   console.log(`  ✓ location pages total: ${total}`);
+
+  // --- Areas Served pages ---
+  const areasSrcDir = path.join(
+    'C:/Users/KillerGrowth/.openclaw/workspace/sites/goodtobeclean/page-content/areas-served'
+  );
+  if (fs.existsSync(areasSrcDir)) {
+    const areaFiles = fs.readdirSync(areasSrcDir).filter(f => f.endsWith('.md')).sort();
+    let areasCount = 0;
+    for (const mdFile of areaFiles) {
+      const raw = fs.readFileSync(path.join(areasSrcDir, mdFile), 'utf8');
+      const { meta, body } = parseFrontmatter(raw);
+      const slug     = (meta.slug || '').replace(/^\/|\/$/g, '');
+      if (!slug) continue;
+      const citySlug = slug.split('/').pop();
+      const bodyHtml = mdToHtml(body);
+      const html     = renderAreasServedPage(meta, bodyHtml, citySlug, domain, noindex, gtmId, partials);
+      const outDir   = path.join(distDir, ...slug.split('/'));
+      if (!fs.existsSync(outDir)) fs.mkdirSync(outDir, { recursive: true });
+      fs.writeFileSync(path.join(outDir, 'index.html'), html, 'utf8');
+      if (sitemapUrls) sitemapUrls.push(`${domain}/${slug}/`);
+      areasCount++;
+    }
+    console.log(`  ✓ areas-served — ${areasCount} city pages`);
+  } else {
+    console.warn('  ⚠  areas-served MD source not found');
+  }
+
   return total;
 }
 
