@@ -1,45 +1,185 @@
 <!--
-  sitemap/index.src.html
-  HTML sitemap page — /sitemap/
+  BUILD:meta
+  title: Site Map | Good To Be Clean | Wichita & El Dorado, KS
+  description: Complete site map for Good To Be Clean — carpet cleaning, air duct cleaning, water damage restoration, mold remediation, fire & smoke restoration, and vapor barrier services across south-central Kansas.
   canonical: https://goodtobeclean-v2.pages.dev/sitemap/
+  ogType: website
 -->
 <!DOCTYPE html>
 <html lang="en" id="top">
 <head>
 <!-- HEAD -->
+<style>
+/* ─── Sitemap-specific styles ───────────────────────────── */
+.sitemap-wrapper {
+  max-width: 1140px;
+  margin: 0 auto;
+  padding: 40px 20px 60px;
+}
+
+/* Section heading */
+.sitemap-section {
+  margin-bottom: 48px;
+}
+.sitemap-section > h2 {
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: #000e39;
+  border-bottom: 3px solid #d32f2f;
+  padding-bottom: 10px;
+  margin-bottom: 24px;
+}
+
+/* Pill-style main link row */
+.sitemap-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.sitemap-pills a {
+  display: inline-block;
+  background: #f0f4ff;
+  color: #000e39;
+  font-weight: 600;
+  font-size: 14px;
+  padding: 8px 18px;
+  border-radius: 30px;
+  border: 1px solid #c8d5f5;
+  text-decoration: none;
+  transition: background .2s, color .2s;
+}
+.sitemap-pills a:hover {
+  background: #000e39;
+  color: #fff;
+  border-color: #000e39;
+}
+
+/* Service + City grid — 3 cards across on desktop */
+.sitemap-service-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+@media (max-width: 900px) {
+  .sitemap-service-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 580px) {
+  .sitemap-service-grid { grid-template-columns: 1fr; }
+}
+
+/* Card */
+.sitemap-card {
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 20px 22px 16px;
+  box-shadow: 0 2px 8px rgba(0,14,57,.05);
+}
+.sitemap-card h3 {
+  font-size: .95rem;
+  font-weight: 700;
+  margin: 0 0 14px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid #f0f4ff;
+}
+.sitemap-card h3 a {
+  color: #000e39;
+  text-decoration: none;
+}
+.sitemap-card h3 a:hover { color: #d32f2f; }
+
+/* Two-column city list inside card */
+.sitemap-card ul {
+  list-style: none !important;
+  padding: 0 !important;
+  margin: 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2px 10px;
+}
+.sitemap-card ul li { padding: 0 !important; margin: 0 !important; }
+.sitemap-card ul li::before { display: none !important; }
+.sitemap-card ul li a {
+  display: block;
+  font-size: .82rem;
+  color: #374151;
+  padding: 3px 0;
+  text-decoration: none;
+  transition: color .15s;
+}
+.sitemap-card ul li a:hover { color: #d32f2f; }
+
+/* Areas-served grid — same pill style, slightly larger */
+.sitemap-areas-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.sitemap-areas-grid a {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #fff;
+  color: #000e39;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 7px 16px;
+  border-radius: 6px;
+  border: 1px solid #e2e8f0;
+  text-decoration: none;
+  box-shadow: 0 1px 4px rgba(0,14,57,.06);
+  transition: background .2s, color .2s, border-color .2s;
+}
+.sitemap-areas-grid a:hover {
+  background: #d32f2f;
+  color: #fff;
+  border-color: #d32f2f;
+}
+.sitemap-areas-grid a i {
+  font-size: 10px;
+  opacity: .7;
+}
+</style>
 </head>
 <body>
 <!-- HEADER -->
+
 <main>
+
   <section class="page-hero">
     <div class="container">
       <h1>Site Map</h1>
-      <p class="hero-subtitle">Complete site map for Good To Be Clean — cleaning and restoration services across south-central Kansas.</p>
+      <p class="hero-subtitle">Every page on our site — services, locations, and resources — all in one place.</p>
       <nav class="g2bc-breadcrumb" aria-label="Breadcrumb">
-        <ol><li><a href="/">Home</a></li><li><span class="current">Site Map</span></li></ol>
+        <ol>
+          <li><a href="/">Home</a></li>
+          <li><span class="current">Site Map</span></li>
+        </ol>
       </nav>
     </div>
   </section>
 
-  <section class="container" style="padding: 60px 20px;">
+  <div class="sitemap-wrapper">
 
-    <!-- Main Pages -->
+    <!-- ── Main Pages ─────────────────────────────────────────── -->
     <div class="sitemap-section">
-      <h2>Main Pages</h2>
-      <div class="sitemap-main-links">
-        <a href="/">Home</a>
-        <a href="/about/">About Us</a>
-        <a href="/contact/">Contact</a>
-        <a href="/areas-served/">Areas Served</a>
-        <a href="/blog/">Blog</a>
-        <a href="/services/">Services</a>
+      <h2><i class="fas fa-home me-2" style="color:#d32f2f;"></i>Main Pages</h2>
+      <div class="sitemap-pills">
+        <a href="/"><i class="fas fa-home"></i> Home</a>
+        <a href="/about/"><i class="fas fa-users"></i> About Us</a>
+        <a href="/services/"><i class="fas fa-tools"></i> Services</a>
+        <a href="/areas-served/"><i class="fas fa-map-marker-alt"></i> Areas Served</a>
+        <a href="/blog/"><i class="fas fa-newspaper"></i> Blog</a>
+        <a href="/contact/"><i class="fas fa-phone"></i> Contact</a>
       </div>
     </div>
 
-    <!-- Services -->
+    <hr class="kg-divider">
+
+    <!-- ── Services ──────────────────────────────────────────── -->
     <div class="sitemap-section">
-      <h2>Our Services</h2>
-      <div class="sitemap-main-links">
+      <h2><i class="fas fa-tools me-2" style="color:#d32f2f;"></i>Our Services</h2>
+      <div class="sitemap-pills">
         <a href="/services/carpet-cleaning/">Carpet Cleaning</a>
         <a href="/services/air-duct-cleaning/">Air Duct Cleaning</a>
         <a href="/services/water-damage-restoration/">Water Damage Restoration</a>
@@ -50,10 +190,12 @@
       </div>
     </div>
 
-    <!-- Service + City Pages -->
+    <hr class="kg-divider">
+
+    <!-- ── Service + City Pages ──────────────────────────────── -->
     <div class="sitemap-section">
-      <h2>Service + City Pages</h2>
-      <div class="sitemap-grid">
+      <h2><i class="fas fa-map me-2" style="color:#d32f2f;"></i>Service Pages by City</h2>
+      <div class="sitemap-service-grid">
 
         <div class="sitemap-card">
           <h3><a href="/services/carpet-cleaning/">Carpet Cleaning</a></h3>
@@ -272,43 +414,52 @@
           </ul>
         </div>
 
-      </div>
+      </div><!-- /.sitemap-service-grid -->
     </div>
 
-    <!-- Areas Served -->
+    <hr class="kg-divider">
+
+    <!-- ── Areas Served ───────────────────────────────────────── -->
     <div class="sitemap-section">
-      <h2>Areas Served</h2>
-      <div class="sitemap-main-links">
-        <a href="/areas-served/andover-ks/">Andover</a>
-        <a href="/areas-served/augusta-ks/">Augusta</a>
-        <a href="/areas-served/bel-aire-ks/">Bel Aire</a>
-        <a href="/areas-served/benton-ks/">Benton</a>
-        <a href="/areas-served/burns-ks/">Burns</a>
-        <a href="/areas-served/cassoday-ks/">Cassoday</a>
-        <a href="/areas-served/clearwater-ks/">Clearwater</a>
-        <a href="/areas-served/derby-ks/">Derby</a>
-        <a href="/areas-served/douglass-ks/">Douglass</a>
-        <a href="/areas-served/eastborough-ks/">Eastborough</a>
-        <a href="/areas-served/el-dorado-ks/">El Dorado</a>
-        <a href="/areas-served/eureka-ks/">Eureka</a>
-        <a href="/areas-served/goddard-ks/">Goddard</a>
-        <a href="/areas-served/haysville-ks/">Haysville</a>
-        <a href="/areas-served/leon-ks/">Leon</a>
-        <a href="/areas-served/maize-ks/">Maize</a>
-        <a href="/areas-served/newton-ks/">Newton</a>
-        <a href="/areas-served/park-city-ks/">Park City</a>
-        <a href="/areas-served/potwin-ks/">Potwin</a>
-        <a href="/areas-served/rosalia-ks/">Rosalia</a>
-        <a href="/areas-served/rose-hill-ks/">Rose Hill</a>
-        <a href="/areas-served/sedgwick-ks/">Sedgwick</a>
-        <a href="/areas-served/valley-center-ks/">Valley Center</a>
-        <a href="/areas-served/whitewater-ks/">Whitewater</a>
-        <a href="/areas-served/wichita-ks/">Wichita</a>
+      <h2><i class="fas fa-map-marker-alt me-2" style="color:#d32f2f;"></i>Areas Served</h2>
+      <div class="sitemap-areas-grid">
+        <a href="/areas-served/andover-ks/"><i class="fas fa-chevron-right"></i> Andover, KS</a>
+        <a href="/areas-served/augusta-ks/"><i class="fas fa-chevron-right"></i> Augusta, KS</a>
+        <a href="/areas-served/bel-aire-ks/"><i class="fas fa-chevron-right"></i> Bel Aire, KS</a>
+        <a href="/areas-served/benton-ks/"><i class="fas fa-chevron-right"></i> Benton, KS</a>
+        <a href="/areas-served/burns-ks/"><i class="fas fa-chevron-right"></i> Burns, KS</a>
+        <a href="/areas-served/cassoday-ks/"><i class="fas fa-chevron-right"></i> Cassoday, KS</a>
+        <a href="/areas-served/clearwater-ks/"><i class="fas fa-chevron-right"></i> Clearwater, KS</a>
+        <a href="/areas-served/derby-ks/"><i class="fas fa-chevron-right"></i> Derby, KS</a>
+        <a href="/areas-served/douglass-ks/"><i class="fas fa-chevron-right"></i> Douglass, KS</a>
+        <a href="/areas-served/eastborough-ks/"><i class="fas fa-chevron-right"></i> Eastborough, KS</a>
+        <a href="/areas-served/el-dorado-ks/"><i class="fas fa-chevron-right"></i> El Dorado, KS</a>
+        <a href="/areas-served/eureka-ks/"><i class="fas fa-chevron-right"></i> Eureka, KS</a>
+        <a href="/areas-served/goddard-ks/"><i class="fas fa-chevron-right"></i> Goddard, KS</a>
+        <a href="/areas-served/haysville-ks/"><i class="fas fa-chevron-right"></i> Haysville, KS</a>
+        <a href="/areas-served/leon-ks/"><i class="fas fa-chevron-right"></i> Leon, KS</a>
+        <a href="/areas-served/maize-ks/"><i class="fas fa-chevron-right"></i> Maize, KS</a>
+        <a href="/areas-served/newton-ks/"><i class="fas fa-chevron-right"></i> Newton, KS</a>
+        <a href="/areas-served/park-city-ks/"><i class="fas fa-chevron-right"></i> Park City, KS</a>
+        <a href="/areas-served/potwin-ks/"><i class="fas fa-chevron-right"></i> Potwin, KS</a>
+        <a href="/areas-served/rosalia-ks/"><i class="fas fa-chevron-right"></i> Rosalia, KS</a>
+        <a href="/areas-served/rose-hill-ks/"><i class="fas fa-chevron-right"></i> Rose Hill, KS</a>
+        <a href="/areas-served/sedgwick-ks/"><i class="fas fa-chevron-right"></i> Sedgwick, KS</a>
+        <a href="/areas-served/valley-center-ks/"><i class="fas fa-chevron-right"></i> Valley Center, KS</a>
+        <a href="/areas-served/whitewater-ks/"><i class="fas fa-chevron-right"></i> Whitewater, KS</a>
+        <a href="/areas-served/wichita-ks/"><i class="fas fa-chevron-right"></i> Wichita, KS</a>
       </div>
     </div>
 
-  </section>
+    <!-- ── CTA ──────────────────────────────────────────────── -->
+    <div class="kg-cta-box">
+      <h4>Need service in your area? We're just a call away.</h4>
+      <p>Good To Be Clean serves 25+ communities across south-central Kansas — from Wichita and El Dorado to Derby, Andover, and beyond. Call us 24/7 at <a href="tel:+13163206767">(316) 320-6767</a> or <a href="/contact/">request a free estimate online</a>.</p>
+    </div>
+
+  </div><!-- /.sitemap-wrapper -->
 </main>
+
 <!-- FOOTER -->
 </body>
 </html>
