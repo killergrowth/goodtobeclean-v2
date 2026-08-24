@@ -1,162 +1,17 @@
-# Good To Be Clean v2 — Redirects
+﻿# Good To Be Clean v2 - Redirects
 
 # ============================================================
-# /services/{slug}/* → /{slug}/* (301)
+# Root slugs -> /services/{slug}/ (301) — sitemap + live site canonical
 # ============================================================
-/services/carpet-cleaning/*           /carpet-cleaning/:splat           301
-/services/air-duct-cleaning/*         /air-duct-cleaning/:splat         301
-/services/water-damage-restoration/*  /water-damage-restoration/:splat  301
-/services/mold-remediation/*          /mold-remediation/:splat          301
-/services/fire-smoke-restoration/*    /fire-smoke-restoration/:splat    301
-/services/soda-blasting/*             /soda-blasting/:splat             301
-/services/vapor-barrier/*             /vapor-barrier/:splat             301
+/carpet-cleaning/*            /services/carpet-cleaning/:splat            301
+/air-duct-cleaning/*          /services/air-duct-cleaning/:splat          301
+/water-damage-restoration/*   /services/water-damage-restoration/:splat   301
+/mold-remediation/*           /services/mold-remediation/:splat           301
+/fire-smoke-restoration/*     /services/fire-smoke-restoration/:splat     301
+/soda-blasting/*              /services/soda-blasting/:splat              301
+/vapor-barrier/*              /services/vapor-barrier/:splat              301
 
-# /services/ index → /services/ page (keep existing if any, else redirect to home)
-/services/                            /                                 301
-
-# ============================================================
-# Non-ks city variants → ks canonical (301)
-# For services that have both /service/city/ and /service/city-ks/
-# ============================================================
-
-# fire-smoke-restoration
-/fire-smoke-restoration/andover/        /fire-smoke-restoration/andover-ks/        301
-/fire-smoke-restoration/augusta/        /fire-smoke-restoration/augusta-ks/        301
-/fire-smoke-restoration/bel-aire/       /fire-smoke-restoration/bel-aire-ks/       301
-/fire-smoke-restoration/benton/         /fire-smoke-restoration/benton-ks/         301
-/fire-smoke-restoration/burns/          /fire-smoke-restoration/burns-ks/          301
-/fire-smoke-restoration/cassoday/       /fire-smoke-restoration/cassoday-ks/       301
-/fire-smoke-restoration/clearwater/     /fire-smoke-restoration/clearwater-ks/     301
-/fire-smoke-restoration/derby/          /fire-smoke-restoration/derby-ks/          301
-/fire-smoke-restoration/douglass/       /fire-smoke-restoration/douglass-ks/       301
-/fire-smoke-restoration/eastborough/    /fire-smoke-restoration/eastborough-ks/    301
-/fire-smoke-restoration/el-dorado/      /fire-smoke-restoration/el-dorado-ks/      301
-/fire-smoke-restoration/eureka/         /fire-smoke-restoration/eureka-ks/         301
-/fire-smoke-restoration/goddard/        /fire-smoke-restoration/goddard-ks/        301
-/fire-smoke-restoration/haysville/      /fire-smoke-restoration/haysville-ks/      301
-/fire-smoke-restoration/leon/           /fire-smoke-restoration/leon-ks/           301
-/fire-smoke-restoration/maize/          /fire-smoke-restoration/maize-ks/          301
-/fire-smoke-restoration/newton/         /fire-smoke-restoration/newton-ks/         301
-/fire-smoke-restoration/park-city/      /fire-smoke-restoration/park-city-ks/      301
-/fire-smoke-restoration/potwin/         /fire-smoke-restoration/potwin-ks/         301
-/fire-smoke-restoration/rosalia/        /fire-smoke-restoration/rosalia-ks/        301
-/fire-smoke-restoration/rose-hill/      /fire-smoke-restoration/rose-hill-ks/      301
-/fire-smoke-restoration/sedgwick/       /fire-smoke-restoration/sedgwick-ks/       301
-/fire-smoke-restoration/valley-center/  /fire-smoke-restoration/valley-center-ks/  301
-/fire-smoke-restoration/whitewater/     /fire-smoke-restoration/whitewater-ks/     301
-/fire-smoke-restoration/wichita/        /fire-smoke-restoration/wichita-ks/        301
-
-# mold-remediation
-/mold-remediation/andover/        /mold-remediation/andover-ks/        301
-/mold-remediation/augusta/        /mold-remediation/augusta-ks/        301
-/mold-remediation/bel-aire/       /mold-remediation/bel-aire-ks/       301
-/mold-remediation/benton/         /mold-remediation/benton-ks/         301
-/mold-remediation/burns/          /mold-remediation/burns-ks/          301
-/mold-remediation/cassoday/       /mold-remediation/cassoday-ks/       301
-/mold-remediation/clearwater/     /mold-remediation/clearwater-ks/     301
-/mold-remediation/derby/          /mold-remediation/derby-ks/          301
-/mold-remediation/douglass/       /mold-remediation/douglass-ks/       301
-/mold-remediation/eastborough/    /mold-remediation/eastborough-ks/    301
-/mold-remediation/el-dorado/      /mold-remediation/el-dorado-ks/      301
-/mold-remediation/eureka/         /mold-remediation/eureka-ks/         301
-/mold-remediation/goddard/        /mold-remediation/goddard-ks/        301
-/mold-remediation/haysville/      /mold-remediation/haysville-ks/      301
-/mold-remediation/leon/           /mold-remediation/leon-ks/           301
-/mold-remediation/maize/          /mold-remediation/maize-ks/          301
-/mold-remediation/newton/         /mold-remediation/newton-ks/         301
-/mold-remediation/park-city/      /mold-remediation/park-city-ks/      301
-/mold-remediation/potwin/         /mold-remediation/potwin-ks/         301
-/mold-remediation/rosalia/        /mold-remediation/rosalia-ks/        301
-/mold-remediation/rose-hill/      /mold-remediation/rose-hill-ks/      301
-/mold-remediation/sedgwick/       /mold-remediation/sedgwick-ks/       301
-/mold-remediation/valley-center/  /mold-remediation/valley-center-ks/  301
-/mold-remediation/whitewater/     /mold-remediation/whitewater-ks/     301
-/mold-remediation/wichita/        /mold-remediation/wichita-ks/        301
-
-# soda-blasting
-/soda-blasting/andover/        /soda-blasting/andover-ks/        301
-/soda-blasting/augusta/        /soda-blasting/augusta-ks/        301
-/soda-blasting/bel-aire/       /soda-blasting/bel-aire-ks/       301
-/soda-blasting/benton/         /soda-blasting/benton-ks/         301
-/soda-blasting/burns/          /soda-blasting/burns-ks/          301
-/soda-blasting/cassoday/       /soda-blasting/cassoday-ks/       301
-/soda-blasting/clearwater/     /soda-blasting/clearwater-ks/     301
-/soda-blasting/derby/          /soda-blasting/derby-ks/          301
-/soda-blasting/douglass/       /soda-blasting/douglass-ks/       301
-/soda-blasting/eastborough/    /soda-blasting/eastborough-ks/    301
-/soda-blasting/el-dorado/      /soda-blasting/el-dorado-ks/      301
-/soda-blasting/eureka/         /soda-blasting/eureka-ks/         301
-/soda-blasting/goddard/        /soda-blasting/goddard-ks/        301
-/soda-blasting/haysville/      /soda-blasting/haysville-ks/      301
-/soda-blasting/leon/           /soda-blasting/leon-ks/           301
-/soda-blasting/maize/          /soda-blasting/maize-ks/          301
-/soda-blasting/newton/         /soda-blasting/newton-ks/         301
-/soda-blasting/park-city/      /soda-blasting/park-city-ks/      301
-/soda-blasting/potwin/         /soda-blasting/potwin-ks/         301
-/soda-blasting/rosalia/        /soda-blasting/rosalia-ks/        301
-/soda-blasting/rose-hill/      /soda-blasting/rose-hill-ks/      301
-/soda-blasting/sedgwick/       /soda-blasting/sedgwick-ks/       301
-/soda-blasting/valley-center/  /soda-blasting/valley-center-ks/  301
-/soda-blasting/whitewater/     /soda-blasting/whitewater-ks/     301
-/soda-blasting/wichita/        /soda-blasting/wichita-ks/        301
-
-# vapor-barrier
-/vapor-barrier/andover/        /vapor-barrier/andover-ks/        301
-/vapor-barrier/augusta/        /vapor-barrier/augusta-ks/        301
-/vapor-barrier/bel-aire/       /vapor-barrier/bel-aire-ks/       301
-/vapor-barrier/benton/         /vapor-barrier/benton-ks/         301
-/vapor-barrier/burns/          /vapor-barrier/burns-ks/          301
-/vapor-barrier/cassoday/       /vapor-barrier/cassoday-ks/       301
-/vapor-barrier/clearwater/     /vapor-barrier/clearwater-ks/     301
-/vapor-barrier/derby/          /vapor-barrier/derby-ks/          301
-/vapor-barrier/douglass/       /vapor-barrier/douglass-ks/       301
-/vapor-barrier/eastborough/    /vapor-barrier/eastborough-ks/    301
-/vapor-barrier/el-dorado/      /vapor-barrier/el-dorado-ks/      301
-/vapor-barrier/eureka/         /vapor-barrier/eureka-ks/         301
-/vapor-barrier/goddard/        /vapor-barrier/goddard-ks/        301
-/vapor-barrier/haysville/      /vapor-barrier/haysville-ks/      301
-/vapor-barrier/leon/           /vapor-barrier/leon-ks/           301
-/vapor-barrier/maize/          /vapor-barrier/maize-ks/          301
-/vapor-barrier/newton/         /vapor-barrier/newton-ks/         301
-/vapor-barrier/park-city/      /vapor-barrier/park-city-ks/      301
-/vapor-barrier/potwin/         /vapor-barrier/potwin-ks/         301
-/vapor-barrier/rosalia/        /vapor-barrier/rosalia-ks/        301
-/vapor-barrier/rose-hill/      /vapor-barrier/rose-hill-ks/      301
-/vapor-barrier/sedgwick/       /vapor-barrier/sedgwick-ks/       301
-/vapor-barrier/valley-center/  /vapor-barrier/valley-center-ks/  301
-/vapor-barrier/whitewater/     /vapor-barrier/whitewater-ks/     301
-/vapor-barrier/wichita/        /vapor-barrier/wichita-ks/        301
-
-# water-damage-restoration
-/water-damage-restoration/andover/        /water-damage-restoration/andover-ks/        301
-/water-damage-restoration/augusta/        /water-damage-restoration/augusta-ks/        301
-/water-damage-restoration/bel-aire/       /water-damage-restoration/bel-aire-ks/       301
-/water-damage-restoration/benton/         /water-damage-restoration/benton-ks/         301
-/water-damage-restoration/burns/          /water-damage-restoration/burns-ks/          301
-/water-damage-restoration/cassoday/       /water-damage-restoration/cassoday-ks/       301
-/water-damage-restoration/clearwater/     /water-damage-restoration/clearwater-ks/     301
-/water-damage-restoration/derby/          /water-damage-restoration/derby-ks/          301
-/water-damage-restoration/douglass/       /water-damage-restoration/douglass-ks/       301
-/water-damage-restoration/eastborough/    /water-damage-restoration/eastborough-ks/    301
-/water-damage-restoration/el-dorado/      /water-damage-restoration/el-dorado-ks/      301
-/water-damage-restoration/eureka/         /water-damage-restoration/eureka-ks/         301
-/water-damage-restoration/goddard/        /water-damage-restoration/goddard-ks/        301
-/water-damage-restoration/haysville/      /water-damage-restoration/haysville-ks/      301
-/water-damage-restoration/leon/           /water-damage-restoration/leon-ks/           301
-/water-damage-restoration/maize/          /water-damage-restoration/maize-ks/          301
-/water-damage-restoration/newton/         /water-damage-restoration/newton-ks/         301
-/water-damage-restoration/park-city/      /water-damage-restoration/park-city-ks/      301
-/water-damage-restoration/potwin/         /water-damage-restoration/potwin-ks/         301
-/water-damage-restoration/rosalia/        /water-damage-restoration/rosalia-ks/        301
-/water-damage-restoration/rose-hill/      /water-damage-restoration/rose-hill-ks/      301
-/water-damage-restoration/sedgwick/       /water-damage-restoration/sedgwick-ks/       301
-/water-damage-restoration/valley-center/  /water-damage-restoration/valley-center-ks/  301
-/water-damage-restoration/whitewater/     /water-damage-restoration/whitewater-ks/     301
-/water-damage-restoration/wichita/        /water-damage-restoration/wichita-ks/        301
-
-# ============================================================
-# /service/ (singular, live site canonical) -> /services/ (v2 canonical) 301
-# ============================================================
+# /service/ (singular, live site path) -> /services/ (v2 canonical) 301
 /service/carpet-cleaning/*            /services/carpet-cleaning/:splat            301
 /service/air-duct-cleaning/*          /services/air-duct-cleaning/:splat          301
 /service/water-damage-restoration/*   /services/water-damage-restoration/:splat   301
@@ -165,11 +20,141 @@
 /service/soda-blasting/*              /services/soda-blasting/:splat              301
 /service/vapor-barrier-installation/* /services/vapor-barrier/:splat              301
 
-# Root-level slugs (sitemap entries) -> /services/ canonical 301
-/carpet-cleaning/*            /services/carpet-cleaning/:splat            301
-/air-duct-cleaning/*          /services/air-duct-cleaning/:splat          301
-/water-damage-restoration/*   /services/water-damage-restoration/:splat   301
-/mold-remediation/*           /services/mold-remediation/:splat           301
-/fire-smoke-restoration/*     /services/fire-smoke-restoration/:splat     301
-/soda-blasting/*              /services/soda-blasting/:splat              301
-/vapor-barrier/*              /services/vapor-barrier/:splat              301
+# ============================================================
+# Non-ks city variants -> ks canonical (301)
+# ============================================================
+
+# fire-smoke-restoration
+/services/fire-smoke-restoration/andover/        /services/fire-smoke-restoration/andover-ks/        301
+/services/fire-smoke-restoration/augusta/        /services/fire-smoke-restoration/augusta-ks/        301
+/services/fire-smoke-restoration/bel-aire/       /services/fire-smoke-restoration/bel-aire-ks/       301
+/services/fire-smoke-restoration/benton/         /services/fire-smoke-restoration/benton-ks/         301
+/services/fire-smoke-restoration/burns/          /services/fire-smoke-restoration/burns-ks/          301
+/services/fire-smoke-restoration/cassoday/       /services/fire-smoke-restoration/cassoday-ks/       301
+/services/fire-smoke-restoration/clearwater/     /services/fire-smoke-restoration/clearwater-ks/     301
+/services/fire-smoke-restoration/derby/          /services/fire-smoke-restoration/derby-ks/          301
+/services/fire-smoke-restoration/douglass/       /services/fire-smoke-restoration/douglass-ks/       301
+/services/fire-smoke-restoration/eastborough/    /services/fire-smoke-restoration/eastborough-ks/    301
+/services/fire-smoke-restoration/el-dorado/      /services/fire-smoke-restoration/el-dorado-ks/      301
+/services/fire-smoke-restoration/eureka/         /services/fire-smoke-restoration/eureka-ks/         301
+/services/fire-smoke-restoration/goddard/        /services/fire-smoke-restoration/goddard-ks/        301
+/services/fire-smoke-restoration/haysville/      /services/fire-smoke-restoration/haysville-ks/      301
+/services/fire-smoke-restoration/leon/           /services/fire-smoke-restoration/leon-ks/           301
+/services/fire-smoke-restoration/maize/          /services/fire-smoke-restoration/maize-ks/          301
+/services/fire-smoke-restoration/newton/         /services/fire-smoke-restoration/newton-ks/         301
+/services/fire-smoke-restoration/park-city/      /services/fire-smoke-restoration/park-city-ks/      301
+/services/fire-smoke-restoration/potwin/         /services/fire-smoke-restoration/potwin-ks/         301
+/services/fire-smoke-restoration/rosalia/        /services/fire-smoke-restoration/rosalia-ks/        301
+/services/fire-smoke-restoration/rose-hill/      /services/fire-smoke-restoration/rose-hill-ks/      301
+/services/fire-smoke-restoration/sedgwick/       /services/fire-smoke-restoration/sedgwick-ks/       301
+/services/fire-smoke-restoration/valley-center/  /services/fire-smoke-restoration/valley-center-ks/  301
+/services/fire-smoke-restoration/whitewater/     /services/fire-smoke-restoration/whitewater-ks/     301
+/services/fire-smoke-restoration/wichita/        /services/fire-smoke-restoration/wichita-ks/        301
+
+# mold-remediation
+/services/mold-remediation/andover/        /services/mold-remediation/andover-ks/        301
+/services/mold-remediation/augusta/        /services/mold-remediation/augusta-ks/        301
+/services/mold-remediation/bel-aire/       /services/mold-remediation/bel-aire-ks/       301
+/services/mold-remediation/benton/         /services/mold-remediation/benton-ks/         301
+/services/mold-remediation/burns/          /services/mold-remediation/burns-ks/          301
+/services/mold-remediation/cassoday/       /services/mold-remediation/cassoday-ks/       301
+/services/mold-remediation/clearwater/     /services/mold-remediation/clearwater-ks/     301
+/services/mold-remediation/derby/          /services/mold-remediation/derby-ks/          301
+/services/mold-remediation/douglass/       /services/mold-remediation/douglass-ks/       301
+/services/mold-remediation/eastborough/    /services/mold-remediation/eastborough-ks/    301
+/services/mold-remediation/el-dorado/      /services/mold-remediation/el-dorado-ks/      301
+/services/mold-remediation/eureka/         /services/mold-remediation/eureka-ks/         301
+/services/mold-remediation/goddard/        /services/mold-remediation/goddard-ks/        301
+/services/mold-remediation/haysville/      /services/mold-remediation/haysville-ks/      301
+/services/mold-remediation/leon/           /services/mold-remediation/leon-ks/           301
+/services/mold-remediation/maize/          /services/mold-remediation/maize-ks/          301
+/services/mold-remediation/newton/         /services/mold-remediation/newton-ks/         301
+/services/mold-remediation/park-city/      /services/mold-remediation/park-city-ks/      301
+/services/mold-remediation/potwin/         /services/mold-remediation/potwin-ks/         301
+/services/mold-remediation/rosalia/        /services/mold-remediation/rosalia-ks/        301
+/services/mold-remediation/rose-hill/      /services/mold-remediation/rose-hill-ks/      301
+/services/mold-remediation/sedgwick/       /services/mold-remediation/sedgwick-ks/       301
+/services/mold-remediation/valley-center/  /services/mold-remediation/valley-center-ks/  301
+/services/mold-remediation/whitewater/     /services/mold-remediation/whitewater-ks/     301
+/services/mold-remediation/wichita/        /services/mold-remediation/wichita-ks/        301
+
+# soda-blasting
+/services/soda-blasting/andover/        /services/soda-blasting/andover-ks/        301
+/services/soda-blasting/augusta/        /services/soda-blasting/augusta-ks/        301
+/services/soda-blasting/bel-aire/       /services/soda-blasting/bel-aire-ks/       301
+/services/soda-blasting/benton/         /services/soda-blasting/benton-ks/         301
+/services/soda-blasting/burns/          /services/soda-blasting/burns-ks/          301
+/services/soda-blasting/cassoday/       /services/soda-blasting/cassoday-ks/       301
+/services/soda-blasting/clearwater/     /services/soda-blasting/clearwater-ks/     301
+/services/soda-blasting/derby/          /services/soda-blasting/derby-ks/          301
+/services/soda-blasting/douglass/       /services/soda-blasting/douglass-ks/       301
+/services/soda-blasting/eastborough/    /services/soda-blasting/eastborough-ks/    301
+/services/soda-blasting/el-dorado/      /services/soda-blasting/el-dorado-ks/      301
+/services/soda-blasting/eureka/         /services/soda-blasting/eureka-ks/         301
+/services/soda-blasting/goddard/        /services/soda-blasting/goddard-ks/        301
+/services/soda-blasting/haysville/      /services/soda-blasting/haysville-ks/      301
+/services/soda-blasting/leon/           /services/soda-blasting/leon-ks/           301
+/services/soda-blasting/maize/          /services/soda-blasting/maize-ks/          301
+/services/soda-blasting/newton/         /services/soda-blasting/newton-ks/         301
+/services/soda-blasting/park-city/      /services/soda-blasting/park-city-ks/      301
+/services/soda-blasting/potwin/         /services/soda-blasting/potwin-ks/         301
+/services/soda-blasting/rosalia/        /services/soda-blasting/rosalia-ks/        301
+/services/soda-blasting/rose-hill/      /services/soda-blasting/rose-hill-ks/      301
+/services/soda-blasting/sedgwick/       /services/soda-blasting/sedgwick-ks/       301
+/services/soda-blasting/valley-center/  /services/soda-blasting/valley-center-ks/  301
+/services/soda-blasting/whitewater/     /services/soda-blasting/whitewater-ks/     301
+/services/soda-blasting/wichita/        /services/soda-blasting/wichita-ks/        301
+
+# vapor-barrier
+/services/vapor-barrier/andover/        /services/vapor-barrier/andover-ks/        301
+/services/vapor-barrier/augusta/        /services/vapor-barrier/augusta-ks/        301
+/services/vapor-barrier/bel-aire/       /services/vapor-barrier/bel-aire-ks/       301
+/services/vapor-barrier/benton/         /services/vapor-barrier/benton-ks/         301
+/services/vapor-barrier/burns/          /services/vapor-barrier/burns-ks/          301
+/services/vapor-barrier/cassoday/       /services/vapor-barrier/cassoday-ks/       301
+/services/vapor-barrier/clearwater/     /services/vapor-barrier/clearwater-ks/     301
+/services/vapor-barrier/derby/          /services/vapor-barrier/derby-ks/          301
+/services/vapor-barrier/douglass/       /services/vapor-barrier/douglass-ks/       301
+/services/vapor-barrier/eastborough/    /services/vapor-barrier/eastborough-ks/    301
+/services/vapor-barrier/el-dorado/      /services/vapor-barrier/el-dorado-ks/      301
+/services/vapor-barrier/eureka/         /services/vapor-barrier/eureka-ks/         301
+/services/vapor-barrier/goddard/        /services/vapor-barrier/goddard-ks/        301
+/services/vapor-barrier/haysville/      /services/vapor-barrier/haysville-ks/      301
+/services/vapor-barrier/leon/           /services/vapor-barrier/leon-ks/           301
+/services/vapor-barrier/maize/          /services/vapor-barrier/maize-ks/          301
+/services/vapor-barrier/newton/         /services/vapor-barrier/newton-ks/         301
+/services/vapor-barrier/park-city/      /services/vapor-barrier/park-city-ks/      301
+/services/vapor-barrier/potwin/         /services/vapor-barrier/potwin-ks/         301
+/services/vapor-barrier/rosalia/        /services/vapor-barrier/rosalia-ks/        301
+/services/vapor-barrier/rose-hill/      /services/vapor-barrier/rose-hill-ks/      301
+/services/vapor-barrier/sedgwick/       /services/vapor-barrier/sedgwick-ks/       301
+/services/vapor-barrier/valley-center/  /services/vapor-barrier/valley-center-ks/  301
+/services/vapor-barrier/whitewater/     /services/vapor-barrier/whitewater-ks/     301
+/services/vapor-barrier/wichita/        /services/vapor-barrier/wichita-ks/        301
+
+# water-damage-restoration
+/services/water-damage-restoration/andover/        /services/water-damage-restoration/andover-ks/        301
+/services/water-damage-restoration/augusta/        /services/water-damage-restoration/augusta-ks/        301
+/services/water-damage-restoration/bel-aire/       /services/water-damage-restoration/bel-aire-ks/       301
+/services/water-damage-restoration/benton/         /services/water-damage-restoration/benton-ks/         301
+/services/water-damage-restoration/burns/          /services/water-damage-restoration/burns-ks/          301
+/services/water-damage-restoration/cassoday/       /services/water-damage-restoration/cassoday-ks/       301
+/services/water-damage-restoration/clearwater/     /services/water-damage-restoration/clearwater-ks/     301
+/services/water-damage-restoration/derby/          /services/water-damage-restoration/derby-ks/          301
+/services/water-damage-restoration/douglass/       /services/water-damage-restoration/douglass-ks/       301
+/services/water-damage-restoration/eastborough/    /services/water-damage-restoration/eastborough-ks/    301
+/services/water-damage-restoration/el-dorado/      /services/water-damage-restoration/el-dorado-ks/      301
+/services/water-damage-restoration/eureka/         /services/water-damage-restoration/eureka-ks/         301
+/services/water-damage-restoration/goddard/        /services/water-damage-restoration/goddard-ks/        301
+/services/water-damage-restoration/haysville/      /services/water-damage-restoration/haysville-ks/      301
+/services/water-damage-restoration/leon/           /services/water-damage-restoration/leon-ks/           301
+/services/water-damage-restoration/maize/          /services/water-damage-restoration/maize-ks/          301
+/services/water-damage-restoration/newton/         /services/water-damage-restoration/newton-ks/         301
+/services/water-damage-restoration/park-city/      /services/water-damage-restoration/park-city-ks/      301
+/services/water-damage-restoration/potwin/         /services/water-damage-restoration/potwin-ks/         301
+/services/water-damage-restoration/rosalia/        /services/water-damage-restoration/rosalia-ks/        301
+/services/water-damage-restoration/rose-hill/      /services/water-damage-restoration/rose-hill-ks/      301
+/services/water-damage-restoration/sedgwick/       /services/water-damage-restoration/sedgwick-ks/       301
+/services/water-damage-restoration/valley-center/  /services/water-damage-restoration/valley-center-ks/  301
+/services/water-damage-restoration/whitewater/     /services/water-damage-restoration/whitewater-ks/     301
+/services/water-damage-restoration/wichita/        /services/water-damage-restoration/wichita-ks/        301
