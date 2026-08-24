@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+{{page_meta}}
+{{base_head}}
+</head>
+<body id="top">
+{{header}}
+
+<!-- Blog Post Hero with breadcrumbs inside -->
+<section class="page-hero">
+  <div class="container">
+    <h1>{{title}}</h1>
+    <div class="d-flex justify-content-center align-items-center gap-3 flex-wrap mt-2" style="color:rgba(255,255,255,0.75);font-size:14px;">
+      {{date_html}}
+      {{author_html}}
+    </div>
+    <nav class="g2bc-breadcrumb" aria-label="Breadcrumb">
+      <ol>
+        <li><a href="/">Home</a></li>
+        <li><a href="/blog/">Blog</a></li>
+        <li><span class="current">{{title}}</span></li>
+      </ol>
+    </nav>
+  </div>
+</section>
+
+<!-- Blog Post Body -->
+<article class="section-padded section-light">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-8">
+
+        {{featured_image_html}}
+
+        <div class="kg-post-content">
+          {{content}}
+        </div>
+
+        <!-- Back to blog -->
+        <div class="mt-5 pt-4" style="border-top:1px solid #ebedf5;">
+          <a href="/blog/" style="color:#d32f2f;font-weight:700;text-decoration:none;">
+            &larr; Back to Blog
+          </a>
+        </div>
+
+      </div>
+
+      <!-- Sidebar -->
+      <div class="col-lg-4 d-none d-lg-block">
+        <div style="position:sticky;top:100px;">
+
+          <!-- CTA Card -->
+          <div style="background:#000e39;color:#fff;border-radius:10px;padding:28px;margin-bottom:24px;text-align:center;">
+            <h4 style="color:#fff;margin-bottom:12px;">Need Help Now?</h4>
+            <p style="font-size:14px;color:rgba(255,255,255,0.8);margin-bottom:20px;">We're available 24/7 for emergency cleaning and restoration across Kansas.</p>
+            <a href="tel:+13163206767" style="display:block;background:#d32f2f;color:#fff;padding:12px;border-radius:6px;font-weight:700;text-decoration:none;margin-bottom:10px;">
+              <i class="fas fa-phone me-2"></i>(316) 320-6767
+            </a>
+            <button class="hcp-button" data-token="c16253424f6b4892b361c09f8540203f" data-orgname="Good-To-Be-Clean" type="button" style="width:100%;border-radius:6px;">
+              Book Online
+            </button>
+          </div>
+
+          <!-- Services quick links -->
+          <div style="background:#f7f8fc;border-radius:10px;padding:24px;">
+            <h5 style="color:#000e39;margin-bottom:16px;">Our Services</h5>
+            <ul style="list-style:none;padding:0;margin:0;">
+              <li style="padding:6px 0;border-bottom:1px solid #ebedf5;"><a href="/services/carpet-cleaning/" style="color:#555;font-size:14px;">Carpet Cleaning</a></li>
+              <li style="padding:6px 0;border-bottom:1px solid #ebedf5;"><a href="/services/air-duct-cleaning/" style="color:#555;font-size:14px;">Air Duct Cleaning</a></li>
+              <li style="padding:6px 0;border-bottom:1px solid #ebedf5;"><a href="/services/water-damage-restoration/" style="color:#555;font-size:14px;">Water Damage Restoration</a></li>
+              <li style="padding:6px 0;border-bottom:1px solid #ebedf5;"><a href="/services/mold-remediation/" style="color:#555;font-size:14px;">Mold Remediation</a></li>
+              <li style="padding:6px 0;border-bottom:1px solid #ebedf5;"><a href="/services/fire-smoke-restoration/" style="color:#555;font-size:14px;">Fire &amp; Smoke Restoration</a></li>
+              <li style="padding:6px 0;"><a href="/services/" style="color:#d32f2f;font-weight:700;font-size:14px;">View All Services →</a></li>
+            </ul>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+</article>
+
+<style>
+.kg-post-hero {
+  width: 100%;
+  max-height: 460px;
+  object-fit: cover;
+  border-radius: 10px;
+  margin-bottom: 32px;
+  display: block;
+}
+.kg-post-content {
+  font-size: 16px;
+  line-height: 1.85;
+  color: #333;
+}
+.kg-post-content h2 { font-size: 1.5rem; color: #000e39; margin: 36px 0 14px; }
+.kg-post-content h3 { font-size: 1.25rem; color: #000e39; margin: 28px 0 12px; }
+.kg-post-content p  { margin-bottom: 1.15rem; }
+.kg-post-content ul, .kg-post-content ol { margin-bottom: 1.15rem; padding-left: 1.5rem; }
+.kg-post-content li { margin-bottom: 6px; }
+.kg-post-content img { max-width: 100%; border-radius: 6px; margin: 20px 0; }
+.kg-post-content a { color: #d32f2f; }
+.kg-post-content a:hover { color: #000e39; }
+.kg-post-content blockquote {
+  border-left: 4px solid #d32f2f;
+  padding: 12px 20px;
+  margin: 24px 0;
+  background: #f7f8fc;
+  border-radius: 0 6px 6px 0;
+  font-style: italic;
+  color: #555;
+}
+</style>
+
+{{footer}}
+<a href="#top" class="scroll-top" aria-label="Back to top"><i class="fas fa-arrow-up"></i></a>
+</body>
+</html>

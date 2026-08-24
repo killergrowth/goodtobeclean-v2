@@ -54,6 +54,24 @@ p { margin-bottom: 1rem; }
   width: auto;
 }
 
+/* ── Hover dropdowns (desktop) ─────────────────────────────────── */
+@media (min-width: 992px) {
+  .g2bc-navbar .dropdown:hover > .dropdown-menu {
+    display: block;
+    margin-top: 0;
+    animation: fadeInDown 0.15s ease;
+  }
+  /* Keep the toggle from requiring a click on desktop */
+  .g2bc-navbar .dropdown-toggle::after {
+    vertical-align: 0.2em;
+  }
+}
+
+@keyframes fadeInDown {
+  from { opacity: 0; transform: translateY(-6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
 .g2bc-navbar .navbar-nav .nav-link {
   color: rgba(255,255,255,0.88) !important;
   font-weight: 500;
