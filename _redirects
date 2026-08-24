@@ -1,15 +1,16 @@
 ﻿# Good To Be Clean v2 - Redirects
 
 # ============================================================
-# Root slugs -> /services/{slug}/ (301) — sitemap + live site canonical
+# Root service slugs redirect to hub pages (not city pages)
+# City pages live at /{service}/{city-ks}/ directly
 # ============================================================
-/carpet-cleaning/*            /services/carpet-cleaning/:splat            301
-/air-duct-cleaning/*          /services/air-duct-cleaning/:splat          301
-/water-damage-restoration/*   /services/water-damage-restoration/:splat   301
-/mold-remediation/*           /services/mold-remediation/:splat           301
-/fire-smoke-restoration/*     /services/fire-smoke-restoration/:splat     301
-/soda-blasting/*              /services/soda-blasting/:splat              301
-/vapor-barrier/*              /services/vapor-barrier/:splat              301
+/carpet-cleaning/             /services/carpet-cleaning/             301
+/air-duct-cleaning/           /services/air-duct-cleaning/           301
+/water-damage-restoration/    /services/water-damage-restoration/    301
+/mold-remediation/            /services/mold-remediation/            301
+/fire-smoke-restoration/      /services/fire-smoke-restoration/      301
+/soda-blasting/               /services/soda-blasting/               301
+/vapor-barrier/               /services/vapor-barrier/               301
 
 # /service/ (singular, live site path) -> /services/ (v2 canonical) 301
 /service/carpet-cleaning/*            /services/carpet-cleaning/:splat            301
