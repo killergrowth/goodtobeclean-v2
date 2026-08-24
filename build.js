@@ -125,10 +125,14 @@ ${gtmHead}
 ${partials.head}
 ${schema}`;
 
+  // Support both comment-style (<!-- HEAD -->) and curly-style ({{HEAD}}) placeholders
   return html
     .replace('<!-- HEAD -->', fullHead)
+    .replace('{{HEAD}}', fullHead)
     .replace('<!-- HEADER -->', partials.header)
-    .replace('<!-- FOOTER -->', partials.footer);
+    .replace('{{HEADER}}', partials.header)
+    .replace('<!-- FOOTER -->', partials.footer)
+    .replace('{{FOOTER}}', partials.footer);
 }
 
 // ---------------------------------------------------------------------------
@@ -137,24 +141,49 @@ ${schema}`;
 function processTemplate(srcFile, partials, sitemapUrls) {
   let html = readFile(srcFile);
 
-  // Extract meta from template <!-- BUILD:meta ... --> comments
-  const metaMatch = html.match(/<!--\s*BUILD:meta\s*([\s\S]*?)-->/);
+  // Extract meta from template — supports both formats:
+  //   <!-- BUILD:meta title: ... description: ... -->
+  //   <!-- META_TITLE: ... --> / <!-- META_DESC: ... --> / <!-- META_CANONICAL: ... -->
   const meta = {};
-  if (metaMatch) {
-    const raw = metaMatch[1];
-    const extract = (key) => {
-      const m = raw.match(new RegExp(key + ':\\s*(.+)'));
-      return m ? m[1].trim() : null;
-    };
+
+  // Format 1: <!-- BUILD:meta ... -->
+  const buildMetaMatch = html.match(/<!--\s*BUILD:meta\s*([\s\S]*?)-->/);
+  if (buildMetaMatch) {
+    const raw = buildMetaMatch[1];
+    const extract = (key) => { const m = raw.match(new RegExp(key + ':\\s*(.+)')); return m ? m[1].trim() : null; };
     if (extract('title'))       meta.title       = extract('title');
     if (extract('description')) meta.description = extract('description');
     if (extract('canonical'))   meta.canonical   = extract('canonical');
     if (extract('ogType'))      meta.ogType      = extract('ogType');
     if (extract('ogImage'))     meta.ogImage     = extract('ogImage');
     if (extract('noindex'))     meta.robots      = 'noindex, nofollow';
-    // Remove the meta comment from output
-    html = html.replace(metaMatch[0], '');
+    html = html.replace(buildMetaMatch[0], '');
   }
+
+  // Format 2: individual <!-- META_TITLE: --> etc. comment lines (strip them from output)
+  const titleMatch = html.match(/<!--\s*META_TITLE:\s*(.+?)\s*-->/);
+  if (titleMatch && !meta.title) { meta.title = titleMatch[1].trim(); }
+  const descMatch = html.match(/<!--\s*META_DESC:\s*(.+?)\s*-->/);
+  if (descMatch && !meta.description) { meta.description = descMatch[1].trim(); }
+  const canonMatch = html.match(/<!--\s*META_CANONICAL:\s*(.+?)\s*-->/);
+  if (canonMatch && !meta.canonical) { meta.canonical = canonMatch[1].trim(); }
+  const ogTypeMatch = html.match(/<!--\s*OG_TYPE:\s*(.+?)\s*-->/);
+  if (ogTypeMatch && !meta.ogType) { meta.ogType = ogTypeMatch[1].trim(); }
+  // Strip schema block
+  const schemaBlockMatch = html.match(/<!--\s*SCHEMA_START[\s\S]*?SCHEMA_END\s*-->/);
+  if (schemaBlockMatch) {
+    try {
+      const jsonStr = schemaBlockMatch[0].replace(/<!--\s*SCHEMA_START/, '').replace(/SCHEMA_END\s*-->/, '').trim();
+      meta.schema = `<script type="application/ld+json">${jsonStr}</script>`;
+    } catch(e) {}
+    html = html.replace(schemaBlockMatch[0], '');
+  }
+  // Strip remaining meta comment lines from output
+  html = html
+    .replace(/<!--\s*META_TITLE:.*?-->/g, '')
+    .replace(/<!--\s*META_DESC:.*?-->/g, '')
+    .replace(/<!--\s*META_CANONICAL:.*?-->/g, '')
+    .replace(/<!--\s*OG_TYPE:.*?-->/g, '');
 
   // Apply canonical from file path if not set
   if (!meta.canonical) {
