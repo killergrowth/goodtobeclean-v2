@@ -80,7 +80,72 @@ function loadPartials() {
   const head   = readFile(path.join(ROOT, '_partials', 'head.html'));
   const header = readFile(path.join(ROOT, '_partials', 'header.html'));
   const footer = readFile(path.join(ROOT, '_partials', 'footer.html'));
-  return { head, header, footer };
+
+  // ── Reviews (build-time, non-destructive) ──────────────────────────────────
+  const reviewsFile = path.join(ROOT, 'data', 'reviews.json');
+  const reviewData  = fs.existsSync(reviewsFile)
+    ? JSON.parse(fs.readFileSync(reviewsFile, 'utf8'))
+    : { rating: null, userRatingCount: 0, reviews: [] };
+
+  const reviewCards = reviewData.reviews.map(r => {
+    const initial     = (r.author || 'A').charAt(0).toUpperCase();
+    const escapedText = (r.text || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+    return `<div class="col-md-6 col-lg-4">
+  <div style="background:#fff;border-radius:8px;padding:28px 24px;border:1px solid rgba(0,14,57,0.08);height:100%;display:flex;flex-direction:column;box-shadow:0 2px 12px rgba(0,14,57,0.06);">
+    <div style="color:#f9a825;margin-bottom:12px;font-size:15px;letter-spacing:1px;">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+    <p style="font-size:14px;color:#444;line-height:1.8;margin-bottom:20px;flex:1;">&ldquo;${escapedText}&rdquo;</p>
+    <div style="display:flex;align-items:center;gap:12px;">
+      <div style="width:38px;height:38px;background:#000e39;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:15px;flex-shrink:0;">${initial}</div>
+      <div>
+        <strong style="font-size:14px;color:#000e39;display:block;">${r.author}</strong>
+        <span style="font-size:12px;color:#999;">${r.relativeTime}</span>
+      </div>
+    </div>
+  </div>
+</div>`;
+  }).join('\n');
+
+  const reviewsPartial = readFile(path.join(ROOT, '_partials', 'reviews.html'))
+    .replace('<!-- REVIEW_CARDS -->', reviewCards || '')
+    .replace('<!-- RATING_VALUE -->', reviewData.rating !== null ? Number(reviewData.rating).toFixed(1) : '4.9')
+    .replace('<!-- REVIEW_COUNT -->', reviewData.userRatingCount ? reviewData.userRatingCount.toLocaleString() : '297');
+
+  // ── AggregateRating schema ─────────────────────────────────────────────────
+  let reviewsSchema = '';
+  if (reviewData.rating && reviewData.userRatingCount) {
+    const schemaObj = {
+      '@context': 'https://schema.org',
+      '@type': 'LocalBusiness',
+      name: 'Good To Be Clean',
+      telephone: '(316) 320-6767',
+      url: 'https://goodtobeclean.com',
+      address: {
+        '@type': 'PostalAddress',
+        streetAddress: '303 Commerce St',
+        addressLocality: 'El Dorado',
+        addressRegion: 'KS',
+        postalCode: '67042',
+        addressCountry: 'US'
+      },
+      aggregateRating: {
+        '@type': 'AggregateRating',
+        ratingValue: reviewData.rating,
+        reviewCount: reviewData.userRatingCount,
+        bestRating: 5,
+        worstRating: 1
+      },
+      review: reviewData.reviews.map(r => ({
+        '@type': 'Review',
+        author: { '@type': 'Person', name: r.author },
+        reviewRating: { '@type': 'Rating', ratingValue: r.rating, bestRating: 5, worstRating: 1 },
+        reviewBody: r.text,
+        ...(r.publishTime ? { datePublished: r.publishTime.substring(0, 10) } : {})
+      }))
+    };
+    reviewsSchema = `<script type="application/ld+json">${JSON.stringify(schemaObj)}<\/script>`;
+  }
+
+  return { head, header, footer, reviewsPartial, reviewsSchema };
 }
 
 // ---------------------------------------------------------------------------
@@ -203,6 +268,15 @@ function processTemplate(srcFile, partials, sitemapUrls) {
   } else if (sitemapUrls) {
     // Still track URL for sitemap even during noindex phase — will be useful later
     sitemapUrls.push(meta.canonical);
+  }
+
+  // Inject reviews placeholder if present
+  if (html.includes('<!-- REVIEWS -->')) {
+    html = html.replace('<!-- REVIEWS -->', partials.reviewsPartial || '');
+    // Merge reviews schema into page schema
+    if (partials.reviewsSchema && !meta.schema) {
+      meta.schema = partials.reviewsSchema;
+    }
   }
 
   // Inject partials
