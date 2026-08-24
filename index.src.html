@@ -158,9 +158,33 @@
   <section class="section-padded section-light" id="why-us">
     <div class="container">
       <div class="row align-items-center gy-5">
+
+        <!-- Photo col with Established badge -->
         <div class="col-lg-6">
-          <img src="/images/team.webp" alt="Good To Be Clean team at work" class="img-fluid rounded" style="box-shadow:0 8px 32px rgba(0,14,57,0.12);" loading="lazy" width="600" height="400">
+          <div style="position:relative;display:inline-block;width:100%;">
+            <img src="/images/about-tech.webp" alt="Good To Be Clean technician at work" class="img-fluid rounded" style="box-shadow:0 8px 32px rgba(0,14,57,0.14);width:100%;object-fit:cover;" loading="lazy">
+            <!-- Established callout badge -->
+            <div style="
+              position:absolute;
+              bottom:28px;
+              left:-20px;
+              background:#000e39;
+              color:#fff;
+              border-radius:12px;
+              padding:18px 24px;
+              box-shadow:0 8px 28px rgba(0,14,57,0.35);
+              text-align:center;
+              min-width:150px;
+            ">
+              <div style="font-size:11px;text-transform:uppercase;letter-spacing:2px;color:rgba(255,255,255,0.65);margin-bottom:4px;">Established</div>
+              <div style="font-size:2.4rem;font-weight:800;line-height:1;color:#fff;">2013</div>
+              <div style="width:32px;height:3px;background:#d32f2f;margin:8px auto 0;border-radius:2px;"></div>
+              <div style="font-size:11px;color:rgba(255,255,255,0.65);margin-top:6px;">Serving Kansas</div>
+            </div>
+          </div>
         </div>
+
+        <!-- Text col -->
         <div class="col-lg-6">
           <p class="section-label">Why Good To Be Clean?</p>
           <h2>Kansas Families Trust Us to Get the Job Done Right</h2>
@@ -197,7 +221,10 @@
               <p>We live and work in the communities we serve — Wichita, El Dorado, Andover, Derby, and across south-central Kansas.</p>
             </div>
           </div>
+
+          <a href="/about/" class="btn-primary-g2bc mt-4" style="display:inline-block;">About Us &rarr;</a>
         </div>
+
       </div>
     </div>
   </section>
