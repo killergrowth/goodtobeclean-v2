@@ -63,3 +63,70 @@
 
 <!-- Cloudflare Turnstile (contact form) -->
 <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+
+<!-- KG Service Page Component System -->
+<style>
+/* Layout */
+.kg-service-layout{display:grid;grid-template-columns:1fr 320px;gap:40px;max-width:1140px;margin:0 auto;padding:30px 20px}
+@media(max-width:1024px){.kg-service-layout{grid-template-columns:1fr}.kg-service-sidebar{display:none}}
+.kg-service-intro{display:grid;grid-template-columns:1fr 1fr;gap:30px;margin-bottom:30px;align-items:start}
+@media(max-width:768px){.kg-service-intro{grid-template-columns:1fr}}
+.kg-service-intro img{width:100%;height:260px;object-fit:cover;border-radius:6px}
+
+/* Typography */
+.kg-section-title{color:#000e39;font-size:22px;font-weight:700;margin:28px 0 14px;padding-top:10px;border-top:2px solid #f0f0f0}
+.kg-section-title:first-child{border-top:none;padding-top:0;margin-top:0}
+
+/* Feature List */
+.kg-feature-list{list-style:none;padding:0;margin:16px 0 24px}
+.kg-feature-list li{display:flex;align-items:flex-start;gap:14px;padding:14px 0;border-bottom:1px solid #f0f0f0}
+.kg-feature-list li:last-child{border-bottom:none}
+.kg-fl-icon{flex-shrink:0;width:32px;height:32px;background:#d32f2f;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:14px;margin-top:2px}
+.kg-fl-title{font-weight:700;color:#000e39;margin-bottom:4px}
+.kg-fl-text{color:#555;font-size:14px;line-height:1.6}
+
+/* Accordion (native details/summary) */
+.kg-accordion{margin:16px 0 24px}
+.kg-accordion details{margin-bottom:8px;border-left:3px solid #d0d0d0;background:#fff;transition:border-color .2s}
+.kg-accordion details[open]{border-left:4px solid #d32f2f;background:#fdf5f5}
+.kg-accordion summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;padding:16px 20px;font-weight:700;font-size:16px;color:#000e39}
+.kg-accordion summary::-webkit-details-marker{display:none}
+.kg-acc-body{padding:0 20px 16px;color:#444;font-size:15px;line-height:1.7}
+.kg-acc-icon{font-style:normal;color:#d32f2f;font-size:20px;font-weight:400;line-height:1}
+details[open] .kg-acc-icon::before{content:'\2212'}
+details:not([open]) .kg-acc-icon::before{content:'\002B'}
+
+/* Divider */
+.kg-divider{border:none;border-top:1px dashed #ddd;margin:24px 0}
+
+/* CTA Box */
+.kg-cta-box{background:#000e39;color:#fff;border-radius:6px;padding:24px 28px;margin-top:32px}
+.kg-cta-box h4{margin:0 0 10px;font-size:20px;color:#fff}
+.kg-cta-box p{margin:0;font-size:15px;line-height:1.6;color:#e8eaf6}
+.kg-cta-box a{color:#ffcc80;font-weight:700}
+
+/* Sidebar */
+.kg-sidebar-box{margin-bottom:30px;border:1px solid #e8e8e8;border-radius:4px;padding:20px;background:#fafafa}
+.kg-sidebar-box h6{font-size:13px;text-transform:uppercase;letter-spacing:1px;color:#888;margin:0 0 14px;font-weight:700}
+.kg-sidebar-box ul{list-style:none;padding:0;margin:0}
+.kg-sidebar-box ul li{border-bottom:1px solid #eee}
+.kg-sidebar-box ul li:last-child{border-bottom:none}
+.kg-sidebar-box ul li a{display:block;padding:9px 0;color:#000e39;font-size:14px;text-decoration:none;font-weight:500}
+.kg-sidebar-box ul li a:hover{color:#d32f2f}
+.kg-sidebar-cta{background:#000e39;border-color:#000e39}
+.kg-sidebar-cta h6{color:#90caf9}
+.kg-sidebar-cta .kg-sidebar-phone{color:#fff;font-size:22px;font-weight:700;display:block;text-decoration:none;margin-bottom:8px}
+.kg-sidebar-cta .kg-sidebar-phone:hover{color:#ffcc80}
+.kg-book-btn{display:block;background:#d32f2f;color:#fff;text-align:center;padding:10px;border-radius:4px;font-weight:700;text-decoration:none;margin-top:10px}
+.kg-book-btn:hover{background:#b71c1c;color:#fff;text-decoration:none}
+
+/* City badges */
+.kg-city-links{margin:0;padding:0;list-style:none;display:flex;flex-wrap:wrap;gap:6px}
+.kg-city-links li a{display:inline-block;background:#eef0f8;color:#000e39;border-radius:20px;padding:4px 12px;font-size:.82rem;font-weight:500;text-decoration:none;transition:background .2s}
+.kg-city-links li a:hover{background:#000e39;color:#fff}
+
+/* FAQ */
+.kg-faq-item{margin-bottom:24px}
+.kg-faq-item h3{font-size:17px;color:#000e39;margin-bottom:6px}
+.kg-faq-item p{color:#444;line-height:1.7;margin:0}
+</style>
