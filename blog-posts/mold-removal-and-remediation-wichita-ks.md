@@ -1,13 +1,13 @@
 ---
 slug: mold-removal-and-remediation-wichita-ks
 title: 'Mold Removal and Remediation in Wichita, KS'
-status: scheduled
-publishDate: null
+status: published
+publishDate: '2026-08-25T13:00:00.000Z'
 scheduledDate: 2026-08-25T13:00:00.000Z
 excerpt: >-
   Confused about mold removal vs. mold remediation? Here's what the difference
   actually means for your Wichita home — and why it matters.
-featuredImage: '/blog-posts/images/mold-removal-and-remediation-wichita-ks.jpg'
+featuredImage: /blog-posts/images/mold-removal-and-remediation-wichita-ks.jpg
 inlineImage1: null
 inlineImage2: null
 imagePrompt: >-
