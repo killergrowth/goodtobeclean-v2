@@ -3,7 +3,7 @@
  * Cloudflare Pages Function: /submit
  *
  * Environment variables (set in CF Pages dashboard → Settings → Variables):
- *   TURNSTILE_SECRET_KEY  — Cloudflare Turnstile secret key (scoped to goodtobeclean-v2.pages.dev)
+ *   RECAPTCHA_SITE_KEY    — Google reCAPTCHA Enterprise site key
  *   GMAIL_SA_KEY          — JSON string of Google service account credentials
  *   TO_EMAIL              — Recipient email (staging: tylernorris@killergrowth.com)
  *   FROM_EMAIL            — Sender address (e.g. contact@goodtobeclean.com)
@@ -33,24 +33,34 @@ export async function onRequestPost({ request, env }) {
     }
 
     // -----------------------------------------------------------------------
-    // 2. Verify Turnstile token
+    // 2. Verify reCAPTCHA Enterprise token
     // -----------------------------------------------------------------------
-    const turnstileToken = body['cf-turnstile-response'];
-    if (!turnstileToken) {
-      return new Response(JSON.stringify({ success: false, error: 'Security check failed. Please complete the CAPTCHA.' }), { status: 400, headers });
+    const recaptchaToken = body['g-recaptcha-response'];
+    if (!recaptchaToken) {
+      return new Response(JSON.stringify({ success: false, error: 'Security check failed. Please try again.' }), { status: 400, headers });
     }
 
-    const tsRes = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      body: new URLSearchParams({
-        secret: env.TURNSTILE_SECRET_KEY,
-        response: turnstileToken,
-      }),
-    });
+    const siteKey = env.RECAPTCHA_SITE_KEY;
+    const saCredentials = JSON.parse(env.GMAIL_SA_KEY);
+    const gcpToken = await getGcpAccessToken(saCredentials);
 
-    const tsData = await tsRes.json();
-    if (!tsData.success) {
+    const rcRes = await fetch(
+      `https://recaptchaenterprise.googleapis.com/v1/projects/killergrowth/assessments`,
+      {
+        method: 'POST',
+        headers: { 'Authorization': `Bearer ${gcpToken}`, 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          event: { token: recaptchaToken, siteKey, expectedAction: 'submit' },
+        }),
+      }
+    );
+
+    const rcData = await rcRes.json();
+    const score = rcData?.riskAnalysis?.score ?? rcData?.score ?? 0;
+    const valid = rcData?.tokenProperties?.valid ?? false;
+
+    if (!valid || score < 0.5) {
+      console.error('reCAPTCHA failed:', JSON.stringify(rcData));
       return new Response(JSON.stringify({ success: false, error: 'Security verification failed. Please try again.' }), { status: 403, headers });
     }
 
@@ -79,7 +89,7 @@ export async function onRequestPost({ request, env }) {
     const htmlBody = `
       <div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;border:1px solid #e0e4ef;border-radius:6px;overflow:hidden;">
         <div style="background:#000e39;padding:24px 32px;">
-          <img src="https://goodtobeclean.com/images/logo.png" alt="Good To Be Clean" height="44" style="filter:brightness(0) invert(1);">
+          <img src="https://goodtobeclean-v2.pages.dev/images/logo.png" alt="Good To Be Clean" height="44" style="filter:brightness(0) invert(1);">
         </div>
         <div style="padding:32px;">
           <h2 style="color:#000e39;margin-top:0;">New Contact Form Submission</h2>
@@ -102,12 +112,14 @@ export async function onRequestPost({ request, env }) {
     // 4. Send email via Gmail API (service account)
     // -----------------------------------------------------------------------
     const toEmail   = env.TO_EMAIL   || 'tylernorris@killergrowth.com';
-    const fromEmail = env.FROM_EMAIL || 'Good To Be Clean <noreply@goodtobeclean.com>';
+    const fromEmail = `Good To Be Clean <notifications@killergrowth.com>`;
+    const replyTo   = `${name} <${email}>`;
 
     const sent = await sendGmailSA({
       credentials: JSON.parse(env.GMAIL_SA_KEY),
       to: toEmail,
       from: fromEmail,
+      replyTo,
       subject: `[G2BC Form] New inquiry from ${name}`,
       text: emailBody,
       html: htmlBody,
@@ -151,7 +163,7 @@ function escapeHtml(str) {
  * The service account must have domain-wide delegation with Gmail send scope,
  * or the from address must be in the SA's allowed senders list.
  */
-async function sendGmailSA({ credentials, to, from, subject, text, html }) {
+async function sendGmailSA({ credentials, to, from, replyTo, subject, text, html }) {
   // Build JWT for service account
   const now = Math.floor(Date.now() / 1000);
   const payload = {
@@ -160,7 +172,7 @@ async function sendGmailSA({ credentials, to, from, subject, text, html }) {
     aud: 'https://oauth2.googleapis.com/token',
     exp: now + 3600,
     iat: now,
-    sub: credentials.client_email, // If DWD, replace with impersonated user email
+    sub: 'notifications@killergrowth.com', // DWD impersonation — sending as notifications inbox
   };
 
   const jwt = await createJwt(payload, credentials.private_key);
@@ -186,6 +198,7 @@ async function sendGmailSA({ credentials, to, from, subject, text, html }) {
   const rawEmail = [
     `From: ${from}`,
     `To: ${to}`,
+    `Reply-To: ${replyTo}`,
     `Subject: ${subject}`,
     `MIME-Version: 1.0`,
     `Content-Type: multipart/alternative; boundary="${boundary}"`,
@@ -224,6 +237,36 @@ async function sendGmailSA({ credentials, to, from, subject, text, html }) {
   }
 
   return true;
+}
+
+/**
+ * Get a GCP access token using the service account credentials.
+ * Used for reCAPTCHA Enterprise verification.
+ */
+async function getGcpAccessToken(credentials) {
+  const now = Math.floor(Date.now() / 1000);
+  const payload = {
+    iss: credentials.client_email,
+    scope: 'https://www.googleapis.com/auth/cloud-platform',
+    aud: 'https://oauth2.googleapis.com/token',
+    exp: now + 3600,
+    iat: now,
+  };
+
+  const jwt = await createJwt(payload, credentials.private_key);
+
+  const tokenRes = await fetch('https://oauth2.googleapis.com/token', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    body: new URLSearchParams({
+      grant_type: 'urn:ietf:params:oauth:grant-type:jwt-bearer',
+      assertion: jwt,
+    }),
+  });
+
+  const tokenData = await tokenRes.json();
+  if (!tokenData.access_token) throw new Error('GCP token error: ' + JSON.stringify(tokenData));
+  return tokenData.access_token;
 }
 
 /**

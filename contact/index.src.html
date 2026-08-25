@@ -73,8 +73,8 @@
                 </div>
               </div>
 
-              <!-- Cloudflare Turnstile -->
-              <div class="cf-turnstile mt-3" data-sitekey="TURNSTILE_SITE_KEY" data-theme="light"></div>
+              <!-- reCAPTCHA Enterprise (invisible, score-based) -->
+              <input type="hidden" id="g-recaptcha-response" name="g-recaptcha-response">
 
               <div id="form-status" style="margin-top:12px; font-size:14px; font-weight:600;"></div>
 
@@ -129,6 +129,9 @@
 </main>
 
 <!-- FOOTER -->
+
+<!-- reCAPTCHA Enterprise (contact page only) -->
+<script src="https://www.google.com/recaptcha/enterprise.js?render=6LeKM5gtAAAAAOsp_BLvCgcGze4Zx7Z3RtT_JgPO" async defer></script>
 
 <style>
 .form-success { color: #2e7d32; padding: 12px 16px; background: #e8f5e9; border-radius: 4px; }

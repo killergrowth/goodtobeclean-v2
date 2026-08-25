@@ -1,4 +1,4 @@
-/* Good To Be Clean v2 — main.js */
+﻿/* Good To Be Clean v2 — main.js */
 'use strict';
 
 // ─── HCP Booking Modal ────────────────────────────────────────────────────────
@@ -68,52 +68,94 @@ document.addEventListener('DOMContentLoaded', function () {
   });
 })();
 
-// ─── Contact form (contact page) ──────────────────────────────────────────────
+// ─── Contact form (contact page) ────────────────────────────────────────────
 (function () {
-  var form = document.getElementById('g2bc-contact-form');
+  var RECAPTCHA_SITE_KEY = '6LeKM5gtAAAAAOsp_BLvCgcGze4Zx7Z3RtT_JgPO';
+  var form     = document.getElementById('contact-form');
   var statusEl = document.getElementById('form-status');
   if (!form) return;
 
   form.addEventListener('submit', function (e) {
     e.preventDefault();
+
+    // ── Client-side validation ───────────────────────────────────────────────
+    var nameVal    = (form.querySelector('#contact-name')    || {}).value || '';
+    var emailVal   = (form.querySelector('#contact-email')   || {}).value || '';
+    var messageVal = (form.querySelector('#contact-message') || {}).value || '';
+
+    if (!nameVal.trim() || !emailVal.trim() || !messageVal.trim()) {
+      if (statusEl) {
+        statusEl.style.cssText = 'display:block;background:#fff3e0;color:#e65100;padding:16px;border-radius:6px;font-weight:600;margin-top:8px;';
+        statusEl.textContent = 'Please fill in all required fields (Full Name, Email Address, and Message).';
+      }
+      return;
+    }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailVal.trim())) {
+      if (statusEl) {
+        statusEl.style.cssText = 'display:block;background:#fff3e0;color:#e65100;padding:16px;border-radius:6px;font-weight:600;margin-top:8px;';
+        statusEl.textContent = 'Please enter a valid email address.';
+      }
+      return;
+    }
+    // ────────────────────────────────────────────────────────────────────────
+
     var btn = form.querySelector('button[type="submit"]');
     var originalText = btn ? btn.textContent : '';
-    if (btn) { btn.disabled = true; btn.textContent = 'Sending…'; }
+    if (btn) { btn.disabled = true; btn.textContent = 'Sending...'; }
     if (statusEl) { statusEl.style.display = 'none'; }
 
-    var data = {
-      name:    (form.querySelector('#contact-name') || {}).value || '',
-      phone:   (form.querySelector('#contact-phone') || {}).value || '',
-      email:   (form.querySelector('#contact-email') || {}).value || '',
-      service: (form.querySelector('#contact-service') || {}).value || '',
-      message: (form.querySelector('#contact-message') || {}).value || '',
-      token:   (window.turnstile && window.turnstile.getResponse && window.turnstile.getResponse()) || ''
-    };
+    // Get reCAPTCHA Enterprise token, then submit
+    function doSubmit(token) {
+      var data = {
+        name:    nameVal.trim(),
+        phone:   (form.querySelector('#contact-phone')   || {}).value || '',
+        email:   emailVal.trim(),
+        service: (form.querySelector('#contact-service') || {}).value || '',
+        message: messageVal.trim(),
+        'g-recaptcha-response': token
+      };
 
-    fetch('/api/contact', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data)
-    })
-    .then(function (r) { return r.json(); })
-    .then(function (res) {
-      if (res.success) {
-        if (statusEl) {
-          statusEl.style.cssText = 'display:block;background:#e8f5e9;color:#2e7d32;padding:16px;border-radius:6px;font-weight:600;margin-top:8px;';
-          statusEl.textContent = '✓ Message sent! We\'ll be in touch soon.';
+      fetch('/submit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      })
+      .then(function (r) { return r.json(); })
+      .then(function (res) {
+        if (res.success) {
+          if (statusEl) {
+            statusEl.style.cssText = 'display:block;background:#e8f5e9;color:#2e7d32;padding:16px;border-radius:6px;font-weight:600;margin-top:8px;';
+            statusEl.textContent = '\u2713 Message sent! We\'ll be in touch soon.';
+          }
+          form.reset();
+          if (btn) { btn.disabled = false; btn.textContent = originalText; }
+        } else {
+          if (statusEl) {
+            statusEl.style.cssText = 'display:block;background:#ffebee;color:#c62828;padding:16px;border-radius:6px;font-weight:600;margin-top:8px;';
+            statusEl.textContent = res.error || 'Something went wrong. Please call us at (316) 320-6767.';
+          }
+          if (btn) { btn.disabled = false; btn.textContent = originalText; }
         }
-        form.reset();
-        if (window.turnstile && window.turnstile.reset) window.turnstile.reset();
-      } else {
-        throw new Error(res.error || 'Submission failed');
-      }
-    })
-    .catch(function () {
-      if (statusEl) {
-        statusEl.style.cssText = 'display:block;background:#ffebee;color:#c62828;padding:16px;border-radius:6px;font-weight:600;margin-top:8px;';
-        statusEl.textContent = 'Something went wrong. Please call us at (316) 320-6767.';
-      }
-      if (btn) { btn.disabled = false; btn.textContent = originalText; }
-    });
+      })
+      .catch(function (err) {
+        if (statusEl) {
+          statusEl.style.cssText = 'display:block;background:#ffebee;color:#c62828;padding:16px;border-radius:6px;font-weight:600;margin-top:8px;';
+          statusEl.textContent = 'Something went wrong. Please call us at (316) 320-6767.';
+        }
+        if (btn) { btn.disabled = false; btn.textContent = originalText; }
+      });
+    }
+
+    // Execute reCAPTCHA Enterprise score check invisibly
+    if (typeof grecaptcha !== 'undefined' && grecaptcha.enterprise) {
+      grecaptcha.enterprise.ready(function () {
+        grecaptcha.enterprise.execute(RECAPTCHA_SITE_KEY, { action: 'submit' })
+          .then(doSubmit)
+          .catch(function () { doSubmit(''); });
+      });
+    } else {
+      // reCAPTCHA not loaded — submit without token (server will handle)
+      doSubmit('');
+    }
   });
 })();

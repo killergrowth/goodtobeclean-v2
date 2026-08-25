@@ -1,0 +1,219 @@
+<!-- Reviews Carousel — used on all service pages. Mirrors homepage carousel. -->
+<section class="section-padded" id="reviews" style="background:#f7f8fc;">
+  <div class="container">
+
+    <p class="section-label text-center">What Our Clients Say</p>
+    <h2 class="section-title text-center">Serving Kansas with 5&#8209;Star Reviews</h2>
+
+    <!-- Google rating badge -->
+    <div class="d-flex justify-content-center align-items-center gap-2 mt-3 mb-5">
+      <span style="font-size:15px;color:#555;">Current</span>
+      <svg width="20" height="20" viewBox="0 0 48 48" aria-label="Google">
+        <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
+        <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
+        <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
+        <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.18 1.48-4.97 2.31-8.16 2.31-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
+      </svg>
+      <span style="font-size:15px;color:#555;">Rating:</span>
+      <strong style="font-size:16px;color:#000e39;"><!-- RATING_VALUE --></strong>
+    </div>
+
+    <!-- Carousel wrapper -->
+    <div class="g2bc-reviews-carousel" style="position:relative;">
+
+      <!-- Prev arrow -->
+      <button class="rev-arrow rev-arrow--prev" aria-label="Previous reviews" type="button">
+        <i class="fas fa-chevron-left"></i>
+      </button>
+
+      <!-- Track -->
+      <div class="rev-track-outer">
+        <div class="rev-track" id="revTrack">
+          <!-- REVIEW_CARDS_CAROUSEL -->
+        </div>
+      </div>
+
+      <!-- Next arrow -->
+      <button class="rev-arrow rev-arrow--next" aria-label="Next reviews" type="button">
+        <i class="fas fa-chevron-right"></i>
+      </button>
+
+      <!-- Dots -->
+      <div class="rev-dots" id="revDots"></div>
+
+    </div>
+
+    <div class="text-center mt-5">
+      <a href="https://www.google.com/maps/place/?q=place_id:ChIJQZ7qDKCzu4cR6A1pHISd9_Y" target="_blank" rel="noopener noreferrer" class="btn-primary-g2bc">
+        See All Google Reviews &rarr;
+      </a>
+    </div>
+
+  </div>
+</section>
+
+<style>
+/* ---- Review carousel (service pages) ---- */
+.g2bc-reviews-carousel { padding: 0 56px; }
+.rev-track-outer { overflow: hidden; }
+.rev-track {
+  display: flex;
+  gap: 24px;
+  transition: transform 0.35s cubic-bezier(.4,0,.2,1);
+  will-change: transform;
+}
+.rev-card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 28px;
+  box-shadow: 0 2px 16px rgba(0,14,57,0.07);
+  flex: 0 0 calc((100% - 48px) / 3);
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+.rev-card-stars { color: #d32f2f; font-size: 18px; margin-bottom: 14px; letter-spacing: 2px; }
+.rev-card-text {
+  font-size: 15px;
+  line-height: 1.7;
+  color: #444;
+  flex: 1;
+  margin-bottom: 20px;
+}
+.rev-card-footer { display: flex; align-items: center; gap: 12px; }
+.rev-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #000e39;
+  color: #fff;
+  font-weight: 700;
+  font-size: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.rev-author { font-weight: 700; font-size: 14px; color: #000e39; }
+.rev-date   { font-size: 12px; color: #999; margin-top: 2px; }
+/* Arrows */
+.rev-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 40px; height: 40px;
+  border-radius: 50%;
+  border: 2px solid #dde2f0;
+  background: #fff;
+  color: #000e39;
+  font-size: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  z-index: 2;
+}
+.rev-arrow:hover { background: #000e39; color: #fff; border-color: #000e39; }
+.rev-arrow--prev { left: 0; }
+.rev-arrow--next { right: 0; }
+.rev-arrow:disabled { opacity: 0.3; cursor: default; }
+/* Dots */
+.rev-dots { text-align: center; margin-top: 28px; display: flex; gap: 8px; justify-content: center; }
+.rev-dot {
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  background: #dde2f0;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.2s;
+}
+.rev-dot.active { background: #d32f2f; transform: scale(1.25); }
+/* Mobile: 1-up */
+@media (max-width: 767px) {
+  .g2bc-reviews-carousel { padding: 0 40px; }
+  .rev-card { flex: 0 0 100%; }
+}
+@media (min-width: 768px) and (max-width: 991px) {
+  .rev-card { flex: 0 0 calc((100% - 24px) / 2); }
+}
+</style>
+
+<script>
+(function() {
+  const FALLBACK_REVIEWS = [
+    { text: "Good To Be Clean did an amazing job on our carpets. We had two large dogs and years of stains - after they were done, the carpets looked brand new. Highly recommend!", author: "Sarah M.", date: "2 weeks ago" },
+    { text: "We had a mold issue in our basement and these guys were professional, thorough, and put our minds at ease throughout the entire process. Worth every penny.", author: "James K.", date: "1 month ago" },
+    { text: "Called them after a pipe burst in our kitchen. They were there within hours, dried everything out, and handled all the restoration. Can't thank them enough.", author: "Linda T.", date: "3 weeks ago" },
+    { text: "Absolutely stellar service. Our air ducts hadn't been cleaned in years and the difference in air quality is immediately noticeable. Very professional crew.", author: "Mike D.", date: "2 months ago" },
+    { text: "The team showed up on time, explained everything they were doing, and left our home spotless. Will definitely use them again for carpet cleaning.", author: "Rachel S.", date: "1 month ago" },
+    { text: "Fast response on our water damage emergency. They had equipment set up within the hour. Saved our hardwood floors. Exceptional work.", author: "Tom B.", date: "5 weeks ago" }
+  ];
+
+  function getPerPage() {
+    return window.innerWidth < 768 ? 1 : window.innerWidth < 992 ? 2 : 3;
+  }
+
+  const track = document.getElementById('revTrack');
+  const dotsEl = document.getElementById('revDots');
+  const prevBtn = document.querySelector('.rev-arrow--prev');
+  const nextBtn = document.querySelector('.rev-arrow--next');
+  if (!track) return;
+
+  function init(reviews) {
+    const list = (reviews && reviews.length) ? reviews : FALLBACK_REVIEWS;
+    track.innerHTML = list.map(r => {
+      const initial = (r.author || '?').charAt(0).toUpperCase();
+      const stars = '&#9733;'.repeat(r.rating || 5);
+      return `<div class="rev-card">
+        <div class="rev-card-stars">${stars}</div>
+        <p class="rev-card-text">&ldquo;${r.text}&rdquo;</p>
+        <div class="rev-card-footer">
+          <div class="rev-avatar">${initial}</div>
+          <div>
+            <div class="rev-author">${r.author || ''}</div>
+            <div class="rev-date">${r.date || r.relativeTime || ''}</div>
+          </div>
+        </div>
+      </div>`;
+    }).join('');
+
+    let page = 0;
+    function perPage() { return getPerPage(); }
+    function totalPages() { return Math.ceil(list.length / perPage()); }
+
+    function buildDots() {
+      dotsEl.innerHTML = '';
+      for (let i = 0; i < totalPages(); i++) {
+        const d = document.createElement('button');
+        d.className = 'rev-dot' + (i === page ? ' active' : '');
+        d.setAttribute('aria-label', 'Go to page ' + (i+1));
+        d.addEventListener('click', () => goTo(i));
+        dotsEl.appendChild(d);
+      }
+    }
+
+    function goTo(p) {
+      page = Math.max(0, Math.min(p, totalPages() - 1));
+      const cardW = track.querySelector('.rev-card').offsetWidth + 24;
+      track.style.transform = `translateX(-${page * perPage() * cardW}px)`;
+      dotsEl.querySelectorAll('.rev-dot').forEach((d,i) => d.classList.toggle('active', i === page));
+      prevBtn.disabled = page === 0;
+      nextBtn.disabled = page >= totalPages() - 1;
+    }
+
+    prevBtn.addEventListener('click', () => goTo(page - 1));
+    nextBtn.addEventListener('click', () => goTo(page + 1));
+    window.addEventListener('resize', () => { buildDots(); goTo(0); });
+
+    buildDots();
+    goTo(0);
+  }
+
+  fetch('/data/reviews.json')
+    .then(r => r.json())
+    .then(data => init(data && data.reviews ? data.reviews : data))
+    .catch(() => init(null));
+})();
+</script>

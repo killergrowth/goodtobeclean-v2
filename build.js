@@ -110,6 +110,12 @@ function loadPartials() {
     .replace('<!-- RATING_VALUE -->', reviewData.rating !== null ? Number(reviewData.rating).toFixed(1) : '4.9')
     .replace('<!-- REVIEW_COUNT -->', reviewData.userRatingCount ? reviewData.userRatingCount.toLocaleString() : '297');
 
+  // Carousel partial — used on service pages via <!-- REVIEWS --> placeholder.
+  // Cards are populated at runtime by JS via fetch('/data/reviews.json'); only inject the rating.
+  const reviewsCarouselPartial = readFile(path.join(ROOT, '_partials', 'reviews-carousel.html'))
+    .replace('<!-- RATING_VALUE -->', reviewData.rating !== null ? Number(reviewData.rating).toFixed(1) : '4.9')
+    .replace('<!-- REVIEW_CARDS_CAROUSEL -->', '');
+
   // ── AggregateRating schema ─────────────────────────────────────────────────
   let reviewsSchema = '';
   if (reviewData.rating && reviewData.userRatingCount) {
@@ -145,7 +151,7 @@ function loadPartials() {
     reviewsSchema = `<script type="application/ld+json">${JSON.stringify(schemaObj)}<\/script>`;
   }
 
-  return { head, header, footer, reviewsPartial, reviewsSchema };
+  return { head, header, footer, reviewsPartial, reviewsCarouselPartial, reviewsSchema };
 }
 
 // ---------------------------------------------------------------------------
@@ -270,9 +276,9 @@ function processTemplate(srcFile, partials, sitemapUrls) {
     sitemapUrls.push(meta.canonical);
   }
 
-  // Inject reviews placeholder if present
+  // Inject reviews placeholder if present — use carousel style (matches homepage)
   if (html.includes('<!-- REVIEWS -->')) {
-    html = html.replace('<!-- REVIEWS -->', partials.reviewsPartial || '');
+    html = html.replace('<!-- REVIEWS -->', partials.reviewsCarouselPartial || '');
     // Merge reviews schema into page schema
     if (partials.reviewsSchema && !meta.schema) {
       meta.schema = partials.reviewsSchema;
