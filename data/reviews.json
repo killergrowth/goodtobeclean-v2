@@ -1,21 +1,21 @@
 {
   "rating": 4.9,
-  "userRatingCount": 299,
-  "fetchedAt": "2026-09-13T17:06:12.857Z",
+  "userRatingCount": 300,
+  "fetchedAt": "2026-09-20T17:03:45.531Z",
   "reviews": [
-    {
-      "author": "Bea Hearn",
-      "rating": 5,
-      "relativeTime": "3 months ago",
-      "text": "Good to Be Clean always provides excellent carpet cleaning! The young men were friendly, yet professional. They did a great job moving  the furniture,  cleaning that area and moving furniture back!The carpet is so clean!! They also were careful watching for small toys while working. Great Job!!",
-      "publishTime": "2026-06-08T21:10:57.861626471Z"
-    },
     {
       "author": "Kris Roberts",
       "rating": 5,
       "relativeTime": "4 months ago",
       "text": "I am not good with names\nThe two gentlemen that came out to clean my floor vents ductwork. We're very informative very professional. Did what I needed done left the place clean. Very satisfied would recommend them. Very fair price.   😁",
       "publishTime": "2026-04-28T14:27:23.488119894Z"
+    },
+    {
+      "author": "Bea Hearn",
+      "rating": 5,
+      "relativeTime": "3 months ago",
+      "text": "Good to Be Clean always provides excellent carpet cleaning! The young men were friendly, yet professional. They did a great job moving  the furniture,  cleaning that area and moving furniture back!The carpet is so clean!! They also were careful watching for small toys while working. Great Job!!",
+      "publishTime": "2026-06-08T21:10:57.861626471Z"
     },
     {
       "author": "Mallory Cook",
@@ -32,11 +32,11 @@
       "publishTime": "2023-10-16T22:06:03.945963Z"
     },
     {
-      "author": "Sherri Keller",
+      "author": "Joel Slate",
       "rating": 5,
       "relativeTime": "4 months ago",
-      "text": "Sutter and Jaden were excellent.  They were professional and knowledgeable.  They were efficient.  They even pet my puppy who loves everyone.",
-      "publishTime": "2026-05-13T00:15:23.566282801Z"
+      "text": "From the start, Nick talked and treated us like a long time friend. Went above and beyond explaining the process and even action plans he recommended that didn’t even involve his job. There’s really no reason to shop around. This is your best bet when dealing with any type of water damage or mold.",
+      "publishTime": "2026-05-11T20:23:04.065304622Z"
     }
   ]
 }
