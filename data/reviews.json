@@ -1,7 +1,7 @@
 {
   "rating": 4.9,
-  "userRatingCount": 300,
-  "fetchedAt": "2026-10-04T17:52:49.973Z",
+  "userRatingCount": 301,
+  "fetchedAt": "2026-10-11T18:29:31.832Z",
   "reviews": [
     {
       "author": "Kris Roberts",
@@ -13,7 +13,7 @@
     {
       "author": "Bea Hearn",
       "rating": 5,
-      "relativeTime": "3 months ago",
+      "relativeTime": "4 months ago",
       "text": "Good to Be Clean always provides excellent carpet cleaning! The young men were friendly, yet professional. They did a great job moving  the furniture,  cleaning that area and moving furniture back!The carpet is so clean!! They also were careful watching for small toys while working. Great Job!!",
       "publishTime": "2026-06-08T21:10:57.861626471Z"
     },
@@ -34,7 +34,7 @@
     {
       "author": "Joel Slate",
       "rating": 5,
-      "relativeTime": "4 months ago",
+      "relativeTime": "5 months ago",
       "text": "From the start, Nick talked and treated us like a long time friend. Went above and beyond explaining the process and even action plans he recommended that didn’t even involve his job. There’s really no reason to shop around. This is your best bet when dealing with any type of water damage or mold.",
       "publishTime": "2026-05-11T20:23:04.065304622Z"
     }
