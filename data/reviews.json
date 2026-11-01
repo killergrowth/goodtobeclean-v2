@@ -1,7 +1,7 @@
 {
   "rating": 4.9,
   "userRatingCount": 301,
-  "fetchedAt": "2026-10-25T17:16:43.701Z",
+  "fetchedAt": "2026-11-01T18:37:54.901Z",
   "reviews": [
     {
       "author": "Kris Roberts",
@@ -18,13 +18,6 @@
       "publishTime": "2026-06-08T21:10:57.861626471Z"
     },
     {
-      "author": "Mallory Cook",
-      "rating": 5,
-      "relativeTime": "6 months ago",
-      "text": "The best carpet cleaning we've ever had! Jaydon and Sutter arrived on time, and did a fantastic job with our carpets. Very kind and professional, and they completed the job in a timely manner. We will definitely use your company again! Thanks, Good To Be Clean!!",
-      "publishTime": "2026-04-01T15:38:30.451450762Z"
-    },
-    {
       "author": "Sheldon Goerzen",
       "rating": 5,
       "relativeTime": "3 years ago",
@@ -37,6 +30,13 @@
       "relativeTime": "5 months ago",
       "text": "From the start, Nick talked and treated us like a long time friend. Went above and beyond explaining the process and even action plans he recommended that didn’t even involve his job. There’s really no reason to shop around. This is your best bet when dealing with any type of water damage or mold.",
       "publishTime": "2026-05-11T20:23:04.065304622Z"
+    },
+    {
+      "author": "Susan Forrest",
+      "rating": 5,
+      "relativeTime": "8 months ago",
+      "text": "Good to Be Clean called me and reminded me when I needed to have my dryer vents cleaned, which is helpful. I didn’t remember the last time I had this done. I also appreciated the timely and quick service!",
+      "publishTime": "2026-02-24T21:54:43.755110384Z"
     }
   ]
 }
